@@ -84,9 +84,9 @@ def gameLoop():
             # thingStartX = random.randrange(0,displayWidth)
         if y < thingStartY + thingHeight:
             print('y crossover')
-        if x > thingStartX and x < thingStartX + thingWidth or x + ballWidth > thingStartX and x + ballWidth < thingStartX + thingWidth:
-            print('x crossover')
-            # crash()
+            if x > thingStartX and x < thingStartX + thingWidth or x + ballWidth > thingStartX and x + ballWidth < thingStartX + thingWidth:
+                print('x crossover')
+                crash()
 
         pygame.display.update()
         clock.tick(60)
