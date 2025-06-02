@@ -12,9 +12,6 @@ blackC = (0,0,0)
 whiteC = (255,255,255)
 redC = (255,0,0)
 
-
-
-
 clock = pygame.time.Clock()
 
 ballImg = pygame.image.load("250x250 img 1.png")
@@ -78,13 +75,14 @@ def gameLoop():
         ballFunc(x,y)        
         if (x > (displayWidth - ballWidth)) or (x < 0):
             crash()
-        if thingStartY>displayHeight:
+        if thingStartY > displayHeight:
             thingStartY = 0 - thingHeight
             thingStartX = random.randrange(0,displayWidth-thingWidth)
             # thingStartX = random.randrange(0,displayWidth)
-        if y < thingStartY + thingHeight:
+        if y < (thingStartY + thingHeight):
             print('y crossover')
-            if x > thingStartX and x < thingStartX + thingWidth or x + ballWidth > thingStartX and x + ballWidth < thingStartX + thingWidth:
+            # <--- Added parentheses here to group the two “collision” checks clearly:
+            if ((x > thingStartX and x < (thingStartX + thingWidth)) or ((x + ballWidth) > thingStartX and (x + ballWidth) < (thingStartX + thingWidth))):
                 print('x crossover')
                 crash()
 
@@ -92,7 +90,7 @@ def gameLoop():
         clock.tick(60)
     pygame.quit()
     quit()
+
 gameLoop()
 pygame.quit()
 quit()
-
