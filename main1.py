@@ -4,8 +4,8 @@ import random
 
 pygame.init()
 
-displayWidth = 800
-displayHeight = 600
+displayWidth = 1000
+displayHeight = 680
 ballWidth = 250 #adjust as fit
 
 blackC = (0,0,0)
@@ -13,7 +13,7 @@ whiteC = (255,255,255)
 redC = (255,0,0)
 greenC = (0,255,0)
 blueC = (0,0,255)
-tempC = (169,43,97)
+blockC = (169,43,97)
 
 clock = pygame.time.Clock()
 
@@ -49,6 +49,22 @@ def messageDisplay(text):
 def crash():
     messageDisplay('You crashed!')
 
+def gameIntro():
+    intro = True
+    while intro:
+        for event in pygame.event.get():
+            print(event)
+            if event.type ==  pygame.QUIT:
+                pygame.quit()
+                quit()
+        gameDisplay.fill(whiteC)
+        largeText = pygame.font.Font("freesansbold.ttf", 80)
+        textSurf,textRect = textObjects("The Bouncing Ball", largeText)
+        textRect.center = ((displayWidth/2), (displayHeight/2))
+        gameDisplay.blit(textSurf, textRect)
+        pygame.display.update()
+        clock.tick(15)
+
 def gameLoop():
     x = 250
     y = 354
@@ -68,7 +84,8 @@ def gameLoop():
     while not gameExit: 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                gameExit = True
+                pygame.quit()
+                quit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
                     xChange = -15
@@ -79,7 +96,7 @@ def gameLoop():
                     xChange = 0
         x += xChange   
         gameDisplay.fill(whiteC)
-        things(thingStartX, thingStartY, thingWidth, thingHeight, redC)
+        things(thingStartX, thingStartY, thingWidth, thingHeight, blockC)
         thingStartY += thingSpeed
         ballFunc(x,y)        
         thingsDodged(dodged)
@@ -91,7 +108,7 @@ def gameLoop():
             # thingStartX = random.randrange(0,displayWidth)
             dodged+=1
             thingSpeed+=1
-            thingWidth+=(dodged*1)
+            thingWidth+=(dodged*1.2)
             # thingWidth+=(dodged*1.2)
         if y < (thingStartY + thingHeight):
             # print('y crossover')   # it works, just commented out because its a bit spammy
@@ -102,9 +119,8 @@ def gameLoop():
 
         pygame.display.update()
         clock.tick(60)
-    pygame.quit()
-    quit()
 
+gameIntro()
 gameLoop()
 pygame.quit()
 quit()
