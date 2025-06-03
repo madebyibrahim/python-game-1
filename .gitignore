@@ -1,3 +1,11 @@
 # Ignore all PNG and JPG images
 *.png
 *.jpg
+
+
+*.exe
+
+# PyInstaller output
+/dist/
+/build/
+*.spec
