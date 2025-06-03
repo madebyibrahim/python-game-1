@@ -14,13 +14,15 @@ redC = (255,0,0)
 greenC = (0,255,0)
 blueC = (0,0,255)
 blockC = (169,43,97)
+lightGreenC = (116,245,24)
+lightRedC = (224,52,72)
 
 clock = pygame.time.Clock()
 
 ballImg = pygame.image.load("250x250 img 1.png")
 
 gameDisplay = pygame.display.set_mode((displayWidth, displayHeight))
-pygame.display.set_caption("The Bouncing Ball")
+pygame.display.set_caption("The Hungry Mouth")
 
 def thingsDodged(count):
     font = pygame.font.SysFont(None, 25)
@@ -59,11 +61,23 @@ def gameIntro():
                 quit()
         gameDisplay.fill(whiteC)
         largeText = pygame.font.Font("freesansbold.ttf", 80)
-        textSurf,textRect = textObjects("The Bouncing Ball", largeText)
-        textRect.center = ((displayWidth/2), (displayHeight/2))
+        textSurf,textRect = textObjects("The Hungry Mouth", largeText)
+        textRect.center = ((displayWidth/2), (displayHeight/4))
         gameDisplay.blit(textSurf, textRect)
+        # pygame.draw.line(gameDisplay, (0, 0, 255), (displayWidth/2, 0), (displayWidth/2, displayHeight)) # vertical center line
+
+        mousePos = pygame.mouse.get_pos()
+        if (displayWidth/2-180)+120>mousePos[0]>(displayWidth/2-180) and 450+60>mousePos[1]>450:
+            pygame.draw.rect(gameDisplay, lightGreenC, ((displayWidth/2-180),450,120,60))
+        else:
+            pygame.draw.rect(gameDisplay, greenC,((displayWidth/2-180),450,120,60))
+        if (displayWidth/2+60) + 120> mousePos[0] > (displayWidth/2+60) and 450+ 60 >mousePos[1] > 450:
+            pygame.draw.rect(gameDisplay, lightRedC, ((displayWidth/2+60),450,120,60))
+        else: 
+            pygame.draw.rect(gameDisplay, redC, ((displayWidth/2+60),450,120,60))
+
         pygame.display.update()
-        clock.tick(15)
+        clock.tick(30)
 
 def gameLoop():
     x = 250
