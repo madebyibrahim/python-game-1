@@ -1,0 +1,15 @@
+{
+    "gameTitle": "تمّو جوعان",
+    "instructionsTitle": "التعليمات",
+    "instructionsDesc": "كول أكل صحي لتربح نقاط. انتبه من السم! عندك ٣ محاولات، واللعبة بتخلص إذا وصلت لـ ٥٠ نقطة.",
+    "playButton": "بَلّش",
+    "quitButton": "زحط",
+    "livesLabel": "المحاولات",
+    "scoreLabel": "النقاط:",
+    "gameOverMessage": "خلصت اللعبة!",
+    "pauseMessage": "فاصل إعلاني ونتابع",
+    "resumeButton": "كمّل",
+    "restartButton": "عيد يا فريد",
+    "soundOn": "شغّل الصوت",
+    "soundOff": "طفي الصوت"
+}

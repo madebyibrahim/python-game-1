@@ -1,3 +1,5 @@
+#Version 1.0
+
 ## when we finish change the theme and make it a mouth thats eats food and avoids poison
 
 import pygame
@@ -6,6 +8,7 @@ import random
 import sys
 import os
 
+#snippet taken to compile all images used in one exe file and have no errors. usage: instead of "E:/myfile.png" use resource_path("E:/myfile.png")
 def resource_path(relative_path):
     """ Get absolute path to resource, works for dev and for PyInstaller """
     try:
@@ -22,7 +25,7 @@ pygame.init()
 
 displayWidth = 1000
 displayHeight = 680
-ballWidth = 250  # adjust as fit
+mouthWidth = 250  # adjust as fit
 
 blackC = (0, 0, 0)
 whiteC = (255, 255, 255)
@@ -40,7 +43,31 @@ ballImg = pygame.image.load(resource_path("250x250_img_1.png"))
 gameDisplay = pygame.display.set_mode((displayWidth, displayHeight))
 pygame.display.set_caption("The Hungry Mouth")
 
+gameIcon = pygame.image.load(resource_path("gameIcon.png"))
+pygame.display.set_icon(gameIcon)
 
+pause = False
+
+def pauseFunc():
+    largeText = pygame.font.SysFont("comicsansms",115)
+    textSurf, textRect = textObjects("Paused", largeText)
+    textRect.center = ((displayWidth/2), (displayHeight/4))
+    gameDisplay.blit(textSurf, textRect)
+    while pause:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+        gameDisplay.fill(whiteC)
+        button("PLAY", displayWidth / 2 - 180, 450, 120, 60, greenC, lightGreenC, unpause)
+        button("QUIT", displayWidth / 2 + 60, 450, 120, 60, redC, lightRedC, quitGame)
+
+        pygame.display.update()
+        clock.tick(15)
+
+def unpause():
+    global pause
+    pause = False
 
 def thingsDodged(count):
     font = pygame.font.SysFont(None, 25)
@@ -72,9 +99,24 @@ def messageDisplay(text):
 
 
 def crash():
-    messageDisplay("You crashed!")
+    largeText = pygame.font.SysFont("comicsansms",115)
+    TextSurf, TextRect = textObjects("You Crashed", largeText)
+    TextRect.center = ((displayWidth/2),(displayHeight/4))
+    gameDisplay.blit(TextSurf, TextRect)
+    while True:
+        for event in pygame.event.get():
+            #print(event)
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+        gameDisplay.fill(whiteC)
+        
 
+        button("Play Again",150,450,100,50,greenC,lightGreenC,gameLoop)
+        button("Quit",550,450,100,50,redC,lightRedC,quitGame)
 
+        pygame.display.update()
+        clock.tick(15) 
 def gameIntro():
     intro = True
     while intro:
@@ -144,7 +186,11 @@ def gameLoop():
                     xChange = -15
                 if event.key == pygame.K_RIGHT:
                     xChange = 15
+                if event.key == pygame.K_p:
+                    pause = True
+                    pauseFunc()
             if event.type == pygame.KEYUP:
+                
                 xChange = 0  # stop moving when key is released
 
         x += xChange
@@ -157,7 +203,7 @@ def gameLoop():
         thingsDodged(dodged)
 
         # Boundary check: crash if mouth goes off-screen
-        if (x > (displayWidth - ballWidth)) or (x < 0):
+        if (x > (displayWidth - mouthWidth)) or (x < 0):
             crash()
 
         # When the “thing” moves past bottom, reset and speed up
@@ -172,7 +218,7 @@ def gameLoop():
         if y < (thingStartY + thingHeight):
             if (
                 (x > thingStartX and x < (thingStartX + thingWidth))
-                or ((x + ballWidth) > thingStartX and (x + ballWidth) < (thingStartX + thingWidth))
+                or ((x + mouthWidth) > thingStartX and (x + mouthWidth) < (thingStartX + thingWidth))
             ):
                 crash()
 

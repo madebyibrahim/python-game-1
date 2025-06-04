@@ -1,0 +1,16 @@
+{
+    "gameTitle": "The Hungry Mouth",
+    "instructionsTitle": "Instructions",
+    "instructionsDesc": "Eat healthy food to gain points. Avoid poison! You have 3 lives. The game ends when you get a score of 50.",
+    "playButton": "PLAY",
+    "quitButton": "QUIT",
+    "livesLabel": "Lives",
+    "scoreLabel": "Score:",
+    "gameOverMessage": "GAME OVER!",
+    "pauseMessage": "PAUSED",
+    "resumeButton": "RESUME",
+    "restartButton": "RESTART",
+    "soundOn": "Sound On",
+    "soundOff": "Sound Off"
+
+}
