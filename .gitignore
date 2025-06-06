@@ -11,4 +11,5 @@
 *.spec
 /utils/__pycache__/
 /assets/images/
+/assets/fonts/
 Roadmap.md

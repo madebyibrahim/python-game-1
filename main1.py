@@ -19,16 +19,25 @@ mouthWidth = 150  # adjust as fit
 
 clock = pygame.time.Clock()
 
-ballImg = pygame.image.load(helpers.resource_path("250x250_img_1.png"))
+# ballImg = pygame.image.load(helpers.resource_path("250x250_img_1.png"))
 
 gameDisplay = pygame.display.set_mode((displayWidth, displayHeight))
 pygame.display.set_caption("The Hungry Mouth")
 
-gameIcon = pygame.image.load(helpers.resource_path("gameIcon.png"))
+gameIcon = pygame.image.load(helpers.resource_path("assets/images/gameIcon.png"))
 pygame.display.set_icon(gameIcon)
 
 pause = False
 
+langSelection.langSelection(gameDisplay)
+
+running = True
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+
+    pygame.display.update()
 # def pauseFunc():
 #     largeText = pygame.font.SysFont("comicsansms",115)
 #     textSurf, textRect = textObjects("Paused", largeText)
@@ -56,27 +65,15 @@ pause = False
 #     gameDisplay.blit(text, (0, 0))
 
 
-# def things(thingX, thingY, thingW, thingH, color):
-#     pygame.draw.rect(gameDisplay, color, [thingX, thingY, thingW, thingH])
 
 
 # def ballFunc(x, y):
 #     gameDisplay.blit(ballImg, (x, y))
 
 
-# def textObjects(text, font):
-#     textSurface = font.render(text, True, blackC)
-#     return textSurface, textSurface.get_rect()
 
 
-# def messageDisplay(text):
-#     largeText = pygame.font.Font("freesansbold.ttf", 115)
-#     textSurf, textRect = textObjects(text, largeText)
-#     textRect.center = (displayWidth / 2, displayHeight / 2)
-#     gameDisplay.blit(textSurf, textRect)
-#     pygame.display.update()
-#     time.sleep(2)
-#     gameLoop()
+
 
 
 # def crash():
