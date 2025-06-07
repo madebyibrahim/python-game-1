@@ -17,7 +17,7 @@ displayWidth = 1000
 displayHeight = 690
 mouthWidth = 150  # adjust as fit
 
-clock = pygame.time.Clock()
+# clock = pygame.time.Clock()
 
 # ballImg = pygame.image.load(helpers.resource_path("250x250_img_1.png"))
 
@@ -27,17 +27,26 @@ pygame.display.set_caption("The Hungry Mouth")
 gameIcon = pygame.image.load(helpers.resource_path("assets/images/gameIcon.png"))
 pygame.display.set_icon(gameIcon)
 
-pause = False
+# pause = False
 
-langSelection.langSelection(gameDisplay)
-
+langSelectionScreen = langSelection.langSelectionScreen(gameDisplay)
 running = True
+clock = pygame.time.Clock()
+selectedLang = None
 while running:
-    for event in pygame.event.get():
+    events = pygame.event.get()
+    for event in events:
         if event.type == pygame.QUIT:
             running = False
-
-    pygame.display.update()
+    if selectedLang is None:
+        selected = langSelectionScreen.showMenu(events)
+        if selected is not None:
+            selectedLang = selected
+        pygame.display.update()
+        clock.tick(30)
+    else:
+        print(f'the selected lang is {selectedLang}')
+        running = False
 # def pauseFunc():
 #     largeText = pygame.font.SysFont("comicsansms",115)
 #     textSurf, textRect = textObjects("Paused", largeText)
@@ -122,22 +131,7 @@ while running:
 #     quit()
 
 
-# def button(msg, x, y, w, h, ic, ac, action=None):
-#     mousePos = pygame.mouse.get_pos()
-#     mouseClicked = pygame.mouse.get_pressed()
-#     # print(mouseClicked)  # can be commented out once you confirm clicks work
 
-#     if x < mousePos[0] < x + w and y < mousePos[1] < y + h:
-#         pygame.draw.rect(gameDisplay, ac, (x, y, w, h))
-#         if mouseClicked[0] == 1 and action is not None:
-#             action()
-#     else:
-#         pygame.draw.rect(gameDisplay, ic, (x, y, w, h))
-
-#     smallText = pygame.font.Font("freesansbold.ttf", 30)
-#     textSurf, textRect = textObjects(msg, smallText)
-#     textRect.center = (x + (w / 2), y + (h / 2))
-#     gameDisplay.blit(textSurf, textRect)
 
 
 # def gameLoop():
