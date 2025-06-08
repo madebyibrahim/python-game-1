@@ -9,7 +9,7 @@
 Players control a cartoon mouth that moves horizontally to catch falling food items:
 
 - ✅ Catch **healthy** food to increase your score.
-- ❌ Avoid **poisonous** items — one mistake ends the game.
+- ❌ Avoid **poisonous** items — three mistakes end the game.
 - 🔁 Fast-paced gameplay designed for replayability and quick reflexes.
 
 ---
@@ -63,6 +63,8 @@ Menus, UI elements, and in-game messages are dynamically localized based on sele
 
 This project is licensed under the **MIT License** — feel free to use, modify, and distribute.
 
+**Note**: This game was created for entertainment and non-commercial purposes. I’m happy for others to learn from or build on it, but I personally do not develop it for profit.
+
 ---
 
 ## 🙌 Credits
@@ -70,13 +72,13 @@ This project is licensed under the **MIT License** — feel free to use, modify,
 - **Developer**: Ibrahim 
 - **Language Support**: [Contributors, if any]  
 - **Tools Used**: Python, Pygame, Custom Assets  
-- **Created as**: A personal/university project
+- **Created as**: A personal project
 
 ---
 
 ## 💼 Portfolio Note
 
-> This project was developed as a showcase of applied programming skills in game development, localization, and user interaction. It is suitable for inclusion in technical portfolios, especially for roles involving software development, game design, or educational tech.
+This project was developed as a showcase of applied programming skills in game development, localization, and user interaction.
 
 ---
 
