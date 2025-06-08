@@ -9,7 +9,7 @@ import random
 import utils.langSelection as langSelection
 from utils import colors as color
 from utils import helpers
-
+import utils.langManager as langManager
 
 pygame.init()
 
@@ -45,7 +45,9 @@ while running:
         pygame.display.update()
         clock.tick(30)
     else:
-        print(f'the selected lang is {selectedLang}')
+        langText = langManager.getLangContent(selectedLang)
+        # print(langText['gameTitle'])
+        
         running = False
 # def pauseFunc():
 #     largeText = pygame.font.SysFont("comicsansms",115)
