@@ -5,7 +5,7 @@
     "playButton": "PLAY",
     "quitButton": "QUIT",
     "livesLabel": "Lives",
-    "scoreLabel": "Score:",
+    "scoreLabel": "Score",
     "gameOverMessage": "GAME OVER!",
     "pauseMessage": "PAUSED",
     "resumeButton": "RESUME",

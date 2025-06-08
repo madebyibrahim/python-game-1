@@ -10,6 +10,8 @@ import utils.langSelection as langSelection
 from utils import colors as color
 from utils import helpers
 import utils.langManager as langManager
+from game.hungryMouth import hungryMouth
+
 
 pygame.init()
 
@@ -47,8 +49,12 @@ while running:
     else:
         langText = langManager.getLangContent(selectedLang)
         # print(langText['gameTitle'])
-        
-        running = False
+        gameDisplay.fill(color.white)
+        hungryMouthV = hungryMouth(gameDisplay)
+        hungryMouthV.drawMouth(gameDisplay)
+        pygame.display.update()
+        clock.tick(30)
+        # running = False
 # def pauseFunc():
 #     largeText = pygame.font.SysFont("comicsansms",115)
 #     textSurf, textRect = textObjects("Paused", largeText)
