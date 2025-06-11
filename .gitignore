@@ -16,3 +16,4 @@ Roadmap.md
 .vscode
 *.pyc
 __pycache__/
+/game/__pycache__/

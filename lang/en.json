@@ -11,6 +11,17 @@
     "resumeButton": "RESUME",
     "restartButton": "RESTART",
     "soundOn": "Sound On",
-    "soundOff": "Sound Off"
-
+    "soundOff": "Sound Off",
+    "healthyFood" :[
+        "assets/images/en_burger.png",
+        "assets/images/en_chickenwings.png",
+        "assets/images/en_hotdog.png",
+        "assets/images/en_pizza.png",
+        "assets/images/en_frenchfries.png"
+    ],
+    "poisonFood" :[
+        "assets/images/en_poison_burger.png",
+        "assets/images/en_poison_cheese.png",
+        "assets/images/en_poison_donut.png"
+    ]
 }

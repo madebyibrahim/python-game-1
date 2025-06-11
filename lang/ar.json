@@ -11,5 +11,17 @@
     "resumeButton": "كمّل",
     "restartButton": "عيد يا فريد",
     "soundOn": "شغّل الصوت",
-    "soundOff": "طفي الصوت"
+    "soundOff": "طفي الصوت",
+    "healthyFood" :[
+        "assets/images/ar_fattoush.png",
+        "assets/images/ar_hummus.png",
+        "assets/images/ar_manouche.png",
+        "assets/images/ar_taboule.png",
+        "assets/images/ar_warakenab.png"
+    ],
+    "poisonFood" :[
+        "assets/images/ar_poison_falafel.png",
+        "assets/images/ar_poison_laban.png",
+        "assets/images/ar_poison_scorpion.png"
+    ]
 }

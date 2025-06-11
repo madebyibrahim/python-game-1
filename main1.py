@@ -35,6 +35,8 @@ langSelectionScreen = langSelection.langSelectionScreen(gameDisplay)
 running = True
 clock = pygame.time.Clock()
 selectedLang = None
+hungryMouthV = hungryMouth(gameDisplay)
+
 while running:
     events = pygame.event.get()
     for event in events:
@@ -50,7 +52,13 @@ while running:
         langText = langManager.getLangContent(selectedLang)
         # print(langText['gameTitle'])
         gameDisplay.fill(color.white)
-        hungryMouthV = hungryMouth(gameDisplay)
+        hungryMouthV.drawMouth(gameDisplay)
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_LEFT] or keys[pygame.K_a]:
+            hungryMouthV.moveLeft()
+        if keys[pygame.K_RIGHT] or keys[pygame.K_d]:
+            hungryMouthV.moveRight()
+        hungryMouthV.updatePoisonTimer()
         hungryMouthV.drawMouth(gameDisplay)
         pygame.display.update()
         clock.tick(30)
