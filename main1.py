@@ -11,7 +11,7 @@ from utils import colors as color
 from utils import helpers
 import utils.langManager as langManager
 from game.hungryMouth import hungryMouth
-
+from game.food import food
 
 pygame.init()
 
@@ -31,23 +31,46 @@ pygame.display.set_icon(gameIcon)
 
 # pause = False
 
+
+def spawnFoodWave(gameDisplay, langText):
+    foodList = []
+    waveSize = random.choice([1,2,3])
+    if waveSize ==1:
+        poison =  random.choice([True, False])
+        foodList.append(food(gameDisplay, poison, langText))
+    elif waveSize ==2:
+        poisonCount = random.choice([1,2])
+        for i in range(2):
+            isPoison = i < poisonCount
+            foodList.append(food(gameDisplay,isPoison, langText))
+    elif waveSize == 3:
+        poisonCount = random.choice([2,3])
+        for i in range(3):
+            isPoison = i < poisonCount
+            foodList.append(food(gameDisplay, isPoison, langText))
+    for i, item in enumerate(foodList):
+        item.x = 50 + i* 300
+    return foodList
+    
+
 langSelectionScreen = langSelection.langSelectionScreen(gameDisplay)
 running = True
 clock = pygame.time.Clock()
 selectedLang = None
 hungryMouthV = hungryMouth(gameDisplay)
-
+score = 0
+foodList = []
 while running:
     events = pygame.event.get()
     for event in events:
-        if event.type == pygame.QUIT:
+        if event.type == pygame.QUIT or pygame.key.get_pressed()[pygame.K_ESCAPE]:
             running = False
     if selectedLang is None:
         selected = langSelectionScreen.showMenu(events)
         if selected is not None:
             selectedLang = selected
         pygame.display.update()
-        clock.tick(30)
+        clock.tick(60)
     else:
         langText = langManager.getLangContent(selectedLang)
         # print(langText['gameTitle'])
@@ -60,8 +83,36 @@ while running:
             hungryMouthV.moveRight()
         hungryMouthV.updatePoisonTimer()
         hungryMouthV.drawMouth(gameDisplay)
-        pygame.display.update()
-        clock.tick(30)
+        if len(foodList) == 0:
+            foodList = spawnFoodWave(gameDisplay, langText)
+        if hungryMouthV.lives <= 0:
+            running = False  # or trigger Game Over screen
+        for foodItem in foodList[:]:  # Copy to safely remove while iterating
+            foodItem.updatePos()
+            
+            if foodItem.getRect().colliderect(hungryMouthV.getRect()):
+                if foodItem.isPoison:
+                    hungryMouthV.activatePoisonEffect()
+                    hungryMouthV.lives -= 1
+                else:
+                    score += 1
+                foodList.remove(foodItem)
+                continue  # Skip drawing if removed due to collision
+ 
+            if foodItem.isOffScreen(gameDisplay):
+                foodList.remove(foodItem)
+                continue  # Skip drawing if removed for being off-screen
+
+            foodItem.drawFood(gameDisplay)
+
+
+    pygame.display.update()
+    clock.tick(60)
+
+
+
+
+
         # running = False
 # def pauseFunc():
 #     largeText = pygame.font.SysFont("comicsansms",115)

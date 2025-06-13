@@ -8,7 +8,7 @@ class hungryMouth:
         (self.displayWidth, self.displayHeight) = gameDisplay.get_size()
         self.x = (self.displayWidth)//2 - self.width//2
         self.y = self.displayHeight - self.height
-        self.xChange = 20
+        self.xChange = 30
         self.imageOpen = pygame.image.load(helpers.resource_path('assets/images/small_open_tomato.png'))
         self.imagePoison = pygame.image.load(helpers.resource_path('assets/images/small_poison_tomato.png'))
         self.poisonTimer = 0
@@ -45,3 +45,7 @@ class hungryMouth:
             self.x = maxX  # Prevent going off the right edge
         else:
             self.x = newX  # Move right normally
+
+    def getRect(self):
+        return pygame.Rect(self.x,self.y,self.width,self.height)
+    

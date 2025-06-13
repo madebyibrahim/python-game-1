@@ -10,7 +10,8 @@ def getLangContent(lang):
     if lang == 'ar':
         data = loadJsonFile('lang/ar.json')
         for key in data:
-            data[key] = helpers.makeArabic(data[key])
+            if isinstance(data[key], str):
+                data[key] = helpers.makeArabic(data[key])
         # print('ahla')
         return data
     else:
