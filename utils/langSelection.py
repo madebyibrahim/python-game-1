@@ -20,26 +20,20 @@ class langSelectionScreen:
         self.enFlag = helpers.resource_path("assets/images/usa_flag.png")
         self.arFlag = helpers.resource_path("assets/images/lebanon_flag.png")
         self.selectedLang = None    
-    def chooseLang(self, lang):
-        self.selectedLang = lang
-        return self.selectedLang
+
     def showMenu(self, events):
         gameDisplay = self.gameDisplay
         gameDisplay.fill(color.white)
-        
         helpers.messageDisplay(gameDisplay,self.enChooseText,95, self.enFont, color.black, -1, self.displayHeight/10)
         helpers.messageDisplay(gameDisplay,self.arChooseText,115, self.arFont, color.black, -1, self.displayHeight/4 + 40)
-
-        helpers.button(gameDisplay, "", self.displayWidth/2 - 125, self.displayHeight/2  , 250, 70, color.gray, color.lightGray, events, lambda: self.chooseLang("en"))
-        helpers.button(gameDisplay, "", self.displayWidth/2 - 125, self.displayHeight/2 + 95 , 250, 70, color.gray, color.lightGray, events, lambda: self.chooseLang("ar"))
-        
+        if helpers.button(gameDisplay, "", self.displayWidth/2 - 125, self.displayHeight/2  , 250, 70, color.gray, color.lightGray, events):
+            self.selectedLang = "en"
+        if helpers.button(gameDisplay, "", self.displayWidth/2 - 125, self.displayHeight/2 + 95 , 250, 70, color.gray, color.lightGray, events):
+            self.selectedLang = "ar"    
         helpers.messageDisplay(gameDisplay,self.arTitle,55, self.arFont, color.red, -1, self.displayHeight/2 + 130)
         helpers.messageDisplay(gameDisplay,self.enTitle,40, self.enFont, color.red, -1, self.displayHeight/2 + 30)
-        
         helpers.showImage(gameDisplay, self.arFlag, (self.displayWidth/2 + 160), (self.displayHeight/2 + 80), (135,90))
-        helpers.showImage(gameDisplay, self.enFlag, (self.displayWidth/2 - 300), (self.displayHeight/2), (140,70))
-        
-        # helpers.button(gameDisplay, "", displayWidth/2 - 300, displayHeight/2 + 120, 140, 60, color.gray, color.lightGray, lambda: chooseLang("en"))
+        helpers.showImage(gameDisplay, self.enFlag, (self.displayWidth/2 - 300), (self.displayHeight/2), (140,70))        
         for event in events:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_e:  # E key for English

@@ -1,9 +1,9 @@
 {
     "gameTitle": "تمّو جوعان",
-    "instructionsTitle": "التعليمات",
-    "instructionsDesc": "كول أكل صحي لتربح نقاط. انتبه من السم! عندك ٣ محاولات، واللعبة بتخلص إذا وصلت لـ ٥٠ نقطة.",
-    "playButton": "بَلّش",
-    "quitButton": "زحط",
+    "11instructionsTitle": "التعليمات",
+    "instructionsDesc": "كول أكل صحي لتربح نقاط. انتبه من السم، عندك ٣ محاولات.",
+    "11playButton": "بَلّش",
+    "11quitButton": "زحط",
     "livesLabel": "المحاولات",
     "scoreLabel": "النقاط",
     "gameOverMessage": "خلصت اللعبة!",
@@ -20,8 +20,35 @@
         "assets/images/ar_warakenab.png"
     ],
     "poisonFood" :[
-        "assets/images/ar_poison_falafel.png",
-        "assets/images/ar_poison_laban.png",
-        "assets/images/ar_poison_scorpion.png"
-    ]
+        {
+            "image": "assets/images/ar_poison_falafel.png",
+            "sfx": "assets/sounds/sfx_ar_poison.wav"
+        },
+        {
+            "image": "assets/images/ar_poison_laban.png",
+            "sfx": "assets/sounds/sfx_ar_poison_3.wav"
+        },
+        {
+            "image": "assets/images/ar_poison_scorpion.png",
+            "sfx": "assets/sounds/sfx_en_poison_2.wav"
+        }
+    ],
+    "sfxGameOver": "assets/sounds/sfx_ar_game_over.wav",
+    "mainTitle": "الفم الجائع",
+    "playButton": "ابدأ",
+    "instructionsButton": "التعليمات",
+    "quitButton": "خروج",
+    "instructionsTitle": "التعليمات",
+    "instr1": "كُل الطعام الصحي فقط!",
+    "instr2": "تجنب السموم للبقاء.",
+    "instr3": "استخدم الأسهم للتحرك.",
+    "instr4": "اضغط P للإيقاف المؤقت.",
+    "instr5": "لديك 3 محاولات!",
+    "backButton": "رجوع",
+    "sfxGoodJob": "assets/sounds/sfx_ar_good_job.wav",
+    "fontPath": "assets/fonts/traditional_arabic.ttf",
+    "language": "ar"
+
+
+
 }

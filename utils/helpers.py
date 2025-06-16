@@ -4,6 +4,7 @@ import pygame
 from utils import colors as color
 import arabic_reshaper
 from bidi.algorithm import get_display
+import json
 
 
 
@@ -34,8 +35,10 @@ def textToSurface(text, font, color=color.black):
     return textSurface, textSurface.get_rect()
 
 #Function to display a text message
-def messageDisplay(gameDisplay, text, fontSize = 115, fontTTF = "freesansbold.ttf",  color = color.black, xCen=-1, yCen=-1):
+def messageDisplay(gameDisplay, text, fontSize = 115, fontTTF = "assets/fonts/freesansbold.ttf",  color = color.black, xCen=-1, yCen=-1, lang = "en"):
     (displayWidth, displayHeight) = gameDisplay.get_size()
+    if lang =="ar":
+        text = makeArabic(text)
     textSize = pygame.font.Font(fontTTF, fontSize)
     textSurf, textRect = textToSurface(text, textSize, color)
     if (xCen == -1):
@@ -56,17 +59,41 @@ def showImage(gameDisplay, imagePath, x=-1,y=-1, size = None):
         y=displayHeight/2
     gameDisplay.blit(img,(x,y))
 
-def button(gameDisplay, msg, x, y, w, h, inactiveColor, activeColor, events, action=None):
+def button(gameDisplay, msg, x, y, w, h, inactiveColor, activeColor, events, lang = "", fontPath = "", fontSize = 30):
     mousePos = pygame.mouse.get_pos()
+    clicked = False
     if x < mousePos[0] < x + w and y < mousePos[1] < y + h:
         pygame.draw.rect(gameDisplay, activeColor, (x, y, w, h))
         for event in events:
-            if (event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and action is not None):
-                action()
+            if (event.type == pygame.MOUSEBUTTONDOWN and event.button == 1):
+                clicked = True
     else:
         pygame.draw.rect(gameDisplay, inactiveColor, (x, y, w, h))
-
-    smallText = pygame.font.Font("freesansbold.ttf", 30)
+    if msg.strip() != "":
+        if lang == "ar":
+            msg = makeArabic(msg)
+    if lang == "":
+        if fontPath == "":
+            lang = "en"
+            # fontPath = en["fontPath"]
+        elif fontPath != "":
+            lang = "en"
+    elif lang != "":
+        if fontPath == "":
+            fontPath = lang["fontPath"]
+    smallText = pygame.font.Font(resource_path(fontPath), fontSize)
     textSurf, textRect = textToSurface(msg, smallText)
     textRect.center = (x + (w / 2), y + (h / 2))
     gameDisplay.blit(textSurf, textRect)
+    return clicked
+
+def loadLanguageData(lang = "en"):
+    if lang == "en":
+    elif lang == "ar":
+    # elif lang == "am":
+    
+    with open('lang/en.json', 'r', encoding='utf-8') as file:
+        enData = json.load(file)
+
+    fontPath = enData.get("fontPath")
+    print(fontPath)

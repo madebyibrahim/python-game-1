@@ -12,8 +12,6 @@ def getLangContent(lang):
         for key in data:
             if isinstance(data[key], str):
                 data[key] = helpers.makeArabic(data[key])
-        # print('ahla')
         return data
     else:
-        # print('Hi 2')
         return loadJsonFile('lang/en.json')

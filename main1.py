@@ -2,9 +2,10 @@
 
 ## when we finish change the theme and make it a mouth thats eats food and avoids poison
 
-import pygame
+import pygame, pygame.mixer
 import time
 import random
+import sys
 
 import utils.langSelection as langSelection
 from utils import colors as color
@@ -12,8 +13,11 @@ from utils import helpers
 import utils.langManager as langManager
 from game.hungryMouth import hungryMouth
 from game.food import food
+from utils.screens import showGameOverScreen, showPauseScreen, showMainMenu, showInstructionsScreen
+
 
 pygame.init()
+pygame.mixer.init()
 
 displayWidth = 1000
 displayHeight = 690
@@ -28,6 +32,7 @@ pygame.display.set_caption("The Hungry Mouth")
 
 gameIcon = pygame.image.load(helpers.resource_path("assets/images/gameIcon.png"))
 pygame.display.set_icon(gameIcon)
+
 
 # pause = False
 
@@ -48,11 +53,30 @@ def spawnFoodWave(gameDisplay, langText):
         for i in range(3):
             isPoison = i < poisonCount
             foodList.append(food(gameDisplay, isPoison, langText))
-    for i, item in enumerate(foodList):
-        item.x = 50 + i* 300
+    usedRects = []
+    for item in foodList:
+        tries = 0
+        while True:
+            item.x = random.randint(50, gameDisplay.get_width() - item.width - 50)
+            itemRect = pygame.Rect(item.x, item.y, item.width, item.height)
+            # Check no overlap and at least 30px gap
+            if all(abs(itemRect.x - r.x) > (item.width + 30) for r in usedRects):
+                usedRects.append(itemRect)
+                break
+            tries += 1
+            if tries > 30:
+                # Couldn’t find a good spot after many tries, place anyway
+                break
     return foodList
-    
 
+
+bgMusicPath = helpers.resource_path("assets/sounds/bg_music.mp3")
+try:
+    pygame.mixer.music.load(bgMusicPath)
+    pygame.mixer.music.set_volume(0.2)
+    pygame.mixer.music.play(-1)
+except Exception as e:
+    print(f"[Warning] Failed to load background music: {e}")
 langSelectionScreen = langSelection.langSelectionScreen(gameDisplay)
 running = True
 clock = pygame.time.Clock()
@@ -60,11 +84,13 @@ selectedLang = None
 hungryMouthV = hungryMouth(gameDisplay)
 score = 0
 foodList = []
+helpers.myfunc()
 while running:
     events = pygame.event.get()
     for event in events:
         if event.type == pygame.QUIT or pygame.key.get_pressed()[pygame.K_ESCAPE]:
             running = False
+    keys = pygame.key.get_pressed()
     if selectedLang is None:
         selected = langSelectionScreen.showMenu(events)
         if selected is not None:
@@ -73,7 +99,22 @@ while running:
         clock.tick(60)
     else:
         langText = langManager.getLangContent(selectedLang)
-        # print(langText['gameTitle'])
+        menuChoice = showMainMenu(gameDisplay, langText, events)
+        try:
+            gameOverSound = pygame.mixer.Sound(helpers.resource_path(langText.get("sfxGameOver", "assets/sounds/sfx_en_game_over.wav")))
+        except Exception as e:
+            print(f"[Warning] 22 Failed to load gameOverSound: {e}")
+            gameOverSound = None
+        if menuChoice == "instructions":
+            showInstructionsScreen(gameDisplay, langText)
+        elif menuChoice == "quit":
+            pygame.quit()
+            sys.exit()
+        if keys[pygame.K_p]:
+            pauseResult = showPauseScreen(gameDisplay, langText)
+            if pauseResult == "quit":
+                running = False
+                break
         gameDisplay.fill(color.white)
         hungryMouthV.drawMouth(gameDisplay)
         keys = pygame.key.get_pressed()
@@ -86,12 +127,25 @@ while running:
         if len(foodList) == 0:
             foodList = spawnFoodWave(gameDisplay, langText)
         if hungryMouthV.lives <= 0:
-            running = False  # or trigger Game Over screen
+            result = showGameOverScreen(gameDisplay, langText)
+            if result == "restart":
+                selectedLang = None
+                hungryMouthV = hungryMouth(gameDisplay)
+                score = 0
+                foodList.clear()
+                continue
+
         for foodItem in foodList[:]:  # Copy to safely remove while iterating
             foodItem.updatePos()
             
             if foodItem.getRect().colliderect(hungryMouthV.getRect()):
                 if foodItem.isPoison:
+                    sfxPath = foodItem.getSfxPath()
+                    if sfxPath:
+                        try:
+                            pygame.mixer.Sound(helpers.resource_path(sfxPath)).play()
+                        except Exception as e:
+                            print(f"[Warning] Failed to play poison sound: {e}")
                     hungryMouthV.activatePoisonEffect()
                     hungryMouthV.lives -= 1
                 else:
@@ -111,6 +165,8 @@ while running:
 
 
 
+# gameOverSound.play()
+# result = showGameOverScreen(gameDisplay, langText)
 
 
         # running = False
