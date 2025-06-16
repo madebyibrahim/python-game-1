@@ -73,7 +73,7 @@ def spawnFoodWave(gameDisplay, langText):
 bgMusicPath = helpers.resource_path("assets/sounds/bg_music.mp3")
 try:
     pygame.mixer.music.load(bgMusicPath)
-    pygame.mixer.music.set_volume(0.2)
+    pygame.mixer.music.set_volume(0.1)
     pygame.mixer.music.play(-1)
 except Exception as e:
     print(f"[Warning] Failed to load background music: {e}")
@@ -84,14 +84,13 @@ selectedLang = None
 hungryMouthV = hungryMouth(gameDisplay)
 score = 0
 foodList = []
-helpers.myfunc()
 while running:
     events = pygame.event.get()
-    for event in events:
-        if event.type == pygame.QUIT or pygame.key.get_pressed()[pygame.K_ESCAPE]:
-            running = False
     keys = pygame.key.get_pressed()
     if selectedLang is None:
+        for event in events:
+            if event.type == pygame.QUIT or pygame.key.get_pressed()[pygame.K_ESCAPE]:
+                running = False
         selected = langSelectionScreen.showMenu(events)
         if selected is not None:
             selectedLang = selected
@@ -100,11 +99,7 @@ while running:
     else:
         langText = langManager.getLangContent(selectedLang)
         menuChoice = showMainMenu(gameDisplay, langText, events)
-        try:
-            gameOverSound = pygame.mixer.Sound(helpers.resource_path(langText.get("sfxGameOver", "assets/sounds/sfx_en_game_over.wav")))
-        except Exception as e:
-            print(f"[Warning] 22 Failed to load gameOverSound: {e}")
-            gameOverSound = None
+        gameOverSound = pygame.mixer.Sound(helpers.resource_path(langText.get("sfxGameOver", "assets/sounds/sfx_en_game_over.wav")))
         if menuChoice == "instructions":
             showInstructionsScreen(gameDisplay, langText)
         elif menuChoice == "quit":

@@ -62,6 +62,7 @@ def showImage(gameDisplay, imagePath, x=-1,y=-1, size = None):
 def button(gameDisplay, msg, x, y, w, h, inactiveColor, activeColor, events, lang = "", fontPath = "", fontSize = 30):
     mousePos = pygame.mouse.get_pos()
     clicked = False
+    langData = None
     if x < mousePos[0] < x + w and y < mousePos[1] < y + h:
         pygame.draw.rect(gameDisplay, activeColor, (x, y, w, h))
         for event in events:
@@ -75,12 +76,14 @@ def button(gameDisplay, msg, x, y, w, h, inactiveColor, activeColor, events, lan
     if lang == "":
         if fontPath == "":
             lang = "en"
-            # fontPath = en["fontPath"]
+            langData = loadLanguageData(lang)
+            fontPath = langData.get("fontPath")
         elif fontPath != "":
             lang = "en"
     elif lang != "":
         if fontPath == "":
-            fontPath = lang["fontPath"]
+            langData = loadLanguageData(lang)
+            fontPath = langData.get("fontPath")
     smallText = pygame.font.Font(resource_path(fontPath), fontSize)
     textSurf, textRect = textToSurface(msg, smallText)
     textRect.center = (x + (w / 2), y + (h / 2))
@@ -89,11 +92,21 @@ def button(gameDisplay, msg, x, y, w, h, inactiveColor, activeColor, events, lan
 
 def loadLanguageData(lang = "en"):
     if lang == "en":
+        with open(resource_path('lang/en.json'), 'r', encoding='utf-8') as file:
+            enData = json.load(file)
+        return enData
     elif lang == "ar":
+        with open(resource_path('lang/ar.json'), 'r', encoding='utf-8') as file:
+            arData = json.load(file)
+        for key in arData:
+            if isinstance(arData[key], str):
+                arData[key] = makeArabic(arData[key])
+        return arData
     # elif lang == "am":
-    
-    with open('lang/en.json', 'r', encoding='utf-8') as file:
-        enData = json.load(file)
+    #     with open('lang/am.json', 'r', encoding='utf-8') as file:
+    #         amData = json.load(file)
+    #     return amData
+        
 
-    fontPath = enData.get("fontPath")
-    print(fontPath)
+    # fontPath = enData.get("fontPath")
+    # print(fontPath)
