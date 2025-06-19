@@ -27,9 +27,9 @@ class Screen:
         gameDisplay.fill(color.white)
         helpers.messageDisplay(gameDisplay,self.enChooseText,95, self.enFont, color.black, -1, self.displayHeight/10)
         helpers.messageDisplay(gameDisplay,self.arChooseText,115, self.arFont, color.black, -1, self.displayHeight/4 + 40)
-        if helpers.button(gameDisplay, "", self.displayWidth/2 - 125, self.displayHeight/2  , 250, 70, color.gray, color.lightGray, events):
+        if (helpers.button(gameDisplay, "", self.displayWidth/2 - 125, self.displayHeight/2  , 250, 70, color.gray, color.lightGray, events)) or (pygame.key.get_pressed()[pygame.K_KP1]):
             self.selectedLang = "en"
-        if helpers.button(gameDisplay, "", self.displayWidth/2 - 125, self.displayHeight/2 + 95 , 250, 70, color.gray, color.lightGray, events):
+        if helpers.button(gameDisplay, "", self.displayWidth/2 - 125, self.displayHeight/2 + 95 , 250, 70, color.gray, color.lightGray, events) or  (pygame.key.get_pressed()[pygame.K_KP2]):
             self.selectedLang = "ar"    
         helpers.messageDisplay(gameDisplay,self.arTitle,55, self.arFont, color.red, -1, self.displayHeight/2 + 130)
         helpers.messageDisplay(gameDisplay,self.enTitle,40, self.enFont, color.red, -1, self.displayHeight/2 + 30)
@@ -46,9 +46,11 @@ class Screen:
     # done
     def showAggressiveQuit(self, langData):
         sfxGoodBye = pygame.mixer.Sound(helpers.resource_path(langData.get("sfxGoodBye")))
-        sfxGoodBye.play()
         while pygame.mixer.get_busy():  # Loop while any sound is playing
             pygame.time.delay(100)  # Short delay to reduce CPU usage
+        sfxGoodBye.play()
+        while pygame.mixer.get_busy():  # Loop while any sound is playing
+            pygame.time.delay(100)
         sys.exit()
 
     def showGameOverScreen(self, langData, events):
@@ -58,12 +60,12 @@ class Screen:
         if helpers.button(self.gameDisplay, "", self.displayWidth/2 - 150, self.displayHeight/2 + 100, 300, 80, color.gray, color.lightGray, events):
             return "aggressiveQuit"
 
-        helpers.messageDisplay(self.gameDisplay, langData.get("gameOverMessage"), 80, langData.get("fontPath"), color.red, -1,-1,langData.get("language"))
+        helpers.messageDisplay(self.gameDisplay, langData.get("gameOverMessage"), 80, langData.get("fontPath"), color.red, -1,self.displayHeight/4,langData.get("language"))
         gameOverSound = pygame.mixer.Sound(helpers.resource_path(langData.get("sfxGameOver")))
         while pygame.mixer.get_busy():  # Loop while any sound is playing
             pygame.time.delay(100)  # Short delay to reduce CPU usage
         gameOverSound.play()
-        sys.exit()
+        # sys.exit()
 
 
     # done
@@ -82,15 +84,20 @@ class Screen:
 
 
     # done
-    def showMainMenu(self, langData, events):
+    def showMainMenu(self, langData):
         self.gameDisplay.fill(color.white)
+        events = pygame.event.get()
         #display text boxes
         if helpers.button(self.gameDisplay, "", self.displayWidth/2 - 175, self.displayHeight/2  , 350, 90, color.gray, color.lightGray, events):
-            return 1
+            return 1 # play
         if helpers.button(self.gameDisplay, "", self.displayWidth/2 - 175, self.displayHeight/2 + 100 , 350, 90, color.gray, color.lightGray, events):
-            return 2
+            return 2 # instructions
         if helpers.button(self.gameDisplay, "", self.displayWidth/2 - 175, self.displayHeight/2 + 200 , 350, 90, color.gray, color.lightGray, events):
-            return 3
+            return 3 # quit
+        for event in events:
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_BACKSPACE:
+                    return 4 # return back to language selection
         # Display the text boxes first and then the text
         helpers.messageDisplay(self.gameDisplay,langData.get("gameTitle"),100, langData.get("fontPath"), color.black, -1, 100, langData.get("language"))
         helpers.messageDisplay(self.gameDisplay,langData.get("playTitle"),60, langData.get("fontPath"), color.red, -1, self.displayHeight/2 + 45, langData.get("language"))
@@ -113,5 +120,9 @@ class Screen:
     
         if helpers.button(self.gameDisplay, "", self.displayWidth/2 + 100, self.displayHeight/2 + 200 , 250, 70, color.gray, color.lightGray, events):
             return True
+        for event in events:
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_BACKSPACE:
+                    return True
 
 

@@ -15,7 +15,7 @@ def gameLoop(gameDisplay, clock, langData, ScreenObj, hungryMouthV, score, foodL
         keys = pygame.key.get_pressed()
         for event in events:
             if event.type == pygame.QUIT or keys[pygame.K_ESCAPE]:
-                return "quit"
+                return "aggressiveQuit"
         gameDisplay.fill(color.white)
         # hungryMouthV.drawMouth(gameDisplay)
         if keys[pygame.K_LEFT] or keys[pygame.K_a]:

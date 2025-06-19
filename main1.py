@@ -11,23 +11,23 @@ from game.logic import gameLoop
 from game.hungryMouth import hungryMouth
 
 
-pygame.init()
-pygame.mixer.init()
-
-displayWidth = 1000
-displayHeight = 690
-mouthWidth = 150  # adjust as fit
-
-gameDisplay = pygame.display.set_mode((displayWidth, displayHeight))
-pygame.display.set_caption("The Hungry Mouth")
-
-gameIcon = pygame.image.load(helpers.resource_path("assets/images/gameIcon.png"))
-pygame.display.set_icon(gameIcon)
 
 
 # pause = False
 
 def main():
+    pygame.init()
+    pygame.mixer.init()
+
+    displayWidth = 1000
+    displayHeight = 690
+    mouthWidth = 150  # adjust as fit
+
+    gameDisplay = pygame.display.set_mode((displayWidth, displayHeight))
+    pygame.display.set_caption("The Hungry Mouth")
+
+    gameIcon = pygame.image.load(helpers.resource_path("assets/images/gameIcon.png"))
+    pygame.display.set_icon(gameIcon)
     ScreenObj = screens.Screen(gameDisplay)
     clock = pygame.time.Clock()
     selectedLang = None
@@ -69,6 +69,8 @@ def main():
                     state = "instructions"
                 elif result == 1:
                     state = "play"
+                elif result == 4:
+                    state = "languageSelection"
 
             elif state == "instructions":
                 back = ScreenObj.showInstructionsScreen(langData, events)
@@ -79,7 +81,10 @@ def main():
                 gameResult = gameLoop(gameDisplay, clock, langData, ScreenObj, hungryMouthV, score, foodList)
                 if gameResult == "gameOver":
                     state = "gameOver"
-
+                elif gameResult == "aggressiveQuit":
+                    ScreenObj.showAggressiveQuit(langData)
+                elif gameResult == "pause": ## still undeveloped code
+                    return 420
             elif state == "gameOver":
                 result = ScreenObj.showGameOverScreen(langData, events)
                 if result == "playAgain":
