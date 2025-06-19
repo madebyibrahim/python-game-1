@@ -33,7 +33,7 @@ class Screen:
             self.selectedLang = "ar"    
         helpers.messageDisplay(gameDisplay,self.arTitle,55, self.arFont, color.red, -1, self.displayHeight/2 + 130)
         helpers.messageDisplay(gameDisplay,self.enTitle,40, self.enFont, color.red, -1, self.displayHeight/2 + 30)
-        helpers.showImage(gameDisplay, self.arFlag, (self.displayWidth/2 + 160), (self.displayHeight/2 + 80), (135,90))
+        helpers.showImage(gameDisplay, self.arFlag, (self.displayWidth/2 + 160), (self.displayHeight/2 + 85), (135,90))
         helpers.showImage(gameDisplay, self.enFlag, (self.displayWidth/2 - 300), (self.displayHeight/2), (140,70))        
         for event in events:
             if event.type == pygame.KEYDOWN:
@@ -56,15 +56,15 @@ class Screen:
         if helpers.button(self.gameDisplay,"", self.displayWidth/2 - 150, self.displayHeight/2, 300, 80, color.gray, color.lightGray, events):
             return "playAgain"
         if helpers.button(self.gameDisplay, "", self.displayWidth/2 - 150, self.displayHeight/2 + 100, 300, 80, color.gray, color.lightGray, events):
-            return "quit"
+            return "aggressiveQuit"
 
         helpers.messageDisplay(self.gameDisplay, langData.get("gameOverMessage"), 80, langData.get("fontPath"), color.red, -1,-1,langData.get("language"))
         gameOverSound = pygame.mixer.Sound(helpers.resource_path(langData.get("sfxGameOver")))
+        while pygame.mixer.get_busy():  # Loop while any sound is playing
+            pygame.time.delay(100)  # Short delay to reduce CPU usage
         gameOverSound.play()
-        # while pygame.mixer.get_busy():  # Loop while any sound is playing
-        #     pygame.time.delay(100)  # Short delay to reduce CPU usage
-        # sys.exit()
-        return None
+        sys.exit()
+
 
     # done
     def showPauseScreen(self, langData, events):

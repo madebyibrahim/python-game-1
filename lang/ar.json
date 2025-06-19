@@ -34,7 +34,7 @@
         },
         {
             "image": "assets/images/ar_poison_scorpion.png",
-            "sfx": "assets/sounds/sfx_en_poison_2.wav"
+            "sfx": "assets/sounds/sfx_ar_poison_2.wav"
         }
     ],
     "sfxGameOver": "assets/sounds/sfx_ar_game_over.wav",

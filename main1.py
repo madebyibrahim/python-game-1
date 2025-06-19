@@ -3,13 +3,13 @@
 ## when we finish change the theme and make it a mouth thats eats food and avoids poison
 
 import pygame, pygame.mixer
-import time
-import random
 import sys
 
 from utils import helpers
 from utils import screens
 from game.logic import gameLoop
+from game.hungryMouth import hungryMouth
+
 
 pygame.init()
 pygame.mixer.init()
@@ -40,7 +40,9 @@ def main():
         pygame.mixer.music.play(-1)
     except Exception as e:
         print(f"[Warning] Failed to load background music: {e}")
-
+    hungryMouthV = hungryMouth(gameDisplay)
+    score = 0
+    foodList = []
 
     while True:
         events = pygame.event.get()
@@ -48,7 +50,7 @@ def main():
         
         if state == "languageSelection":
             for event in events:
-                if event.type == pygame.QUIT or pygame.key.get_pressed()[pygame.K_ESCAPE]:
+                if event.type == pygame.QUIT or keys[pygame.K_ESCAPE]:
                     sys.exit()
             selectedLang = ScreenObj.showLanguageSelection(events)
             if selectedLang:
@@ -57,7 +59,7 @@ def main():
 
         else:
             for event in events:
-                if event.type == pygame.QUIT or pygame.key.get_pressed()[pygame.K_ESCAPE]:
+                if event.type == pygame.QUIT or keys[pygame.K_ESCAPE]:
                     state = "aggressiveQuit"
             if state == "mainMenu":
                 result = ScreenObj.showMainMenu(langData, events)
@@ -74,7 +76,7 @@ def main():
                     state = "mainMenu"
 
             elif state == "play":
-                gameResult = gameLoop(gameDisplay, clock, langData, events, keys, ScreenObj)
+                gameResult = gameLoop(gameDisplay, clock, langData, ScreenObj, hungryMouthV, score, foodList)
                 if gameResult == "gameOver":
                     state = "gameOver"
 
@@ -82,7 +84,7 @@ def main():
                 result = ScreenObj.showGameOverScreen(langData, events)
                 if result == "playAgain":
                     state = "play"
-                elif result == "quit":
+                elif result == "aggressiveQuit":
                     ScreenObj.showAggressiveQuit(langData)
             elif state == "aggressiveQuit":
                 ScreenObj.showAggressiveQuit(langData)
@@ -97,46 +99,6 @@ if __name__ == "__main__":
     main() 
 
 
-
-
-
-# def pauseFunc():
-#     largeText = pygame.font.SysFont("comicsansms",115)
-#     textSurf, textRect = textObjects("Paused", largeText)
-#     textRect.center = ((displayWidth/2), (displayHeight/4))
-#     gameDisplay.blit(textSurf, textRect)
-#     while pause:
-#         for event in pygame.event.get():
-#             if event.type == pygame.QUIT:
-#                 pygame.quit()
-#                 quit()
-#         gameDisplay.fill(whiteC)
-#         button("PLAY", displayWidth / 2 - 180, 450, 120, 60, greenC, lightGreenC, unpause)
-#         button("QUIT", displayWidth / 2 + 60, 450, 120, 60, redC, lightRedC, quitGame)
-
-#         pygame.display.update()
-#         clock.tick(15)
-
-
-# def crash():
-#     largeText = pygame.font.SysFont("comicsansms",115)
-#     TextSurf, TextRect = textObjects("You Crashed", largeText)
-#     TextRect.center = ((displayWidth/2),(displayHeight/4))
-#     gameDisplay.blit(TextSurf, TextRect)
-#     while True:
-#         for event in pygame.event.get():
-#             #print(event)
-#             if event.type == pygame.QUIT:
-#                 pygame.quit()
-#                 quit()
-#         gameDisplay.fill(whiteC)
-        
-
-#         button("Play Again",150,450,100,50,greenC,lightGreenC,gameLoop)
-#         button("Quit",550,450,100,50,redC,lightRedC,quitGame)
-
-#         pygame.display.update()
-#         clock.tick(15) 
 
 
 

@@ -1,5 +1,4 @@
 import pygame
-from game.hungryMouth import hungryMouth
 from game.food import food
 from utils import colors as color
 from utils import helpers
@@ -8,23 +7,17 @@ import random
 
 
 
-def gameLoop(gameDisplay, clock, langData, events, keys, ScreenObj):
-
-    hungryMouthV = hungryMouth(gameDisplay)
-    score = 0
-    foodList = []
-
+def gameLoop(gameDisplay, clock, langData, ScreenObj, hungryMouthV, score, foodList):
     running = True
     while running:
+        # Move and draw
+        events = pygame.event.get()
+        keys = pygame.key.get_pressed()
         for event in events:
             if event.type == pygame.QUIT or keys[pygame.K_ESCAPE]:
                 return "quit"
-        # Move and draw
-        if hungryMouthV.lives <= 0:
-            return "gameOver"
         gameDisplay.fill(color.white)
-        hungryMouthV.drawMouth(gameDisplay)
-        selectedLang = langData.get("language")
+        # hungryMouthV.drawMouth(gameDisplay)
         if keys[pygame.K_LEFT] or keys[pygame.K_a]:
             hungryMouthV.moveLeft()
         if keys[pygame.K_RIGHT] or keys[pygame.K_d]:
@@ -32,7 +25,7 @@ def gameLoop(gameDisplay, clock, langData, events, keys, ScreenObj):
         hungryMouthV.updatePoisonTimer()
         hungryMouthV.drawMouth(gameDisplay)
         if len(foodList) == 0:
-            foodList = spawnFoodWave(gameDisplay, langData)
+            foodList = spawnFoodWave(gameDisplay, langData, foodList)
 
         for foodItem in foodList[:]:  # Copy to safely remove while iterating
             foodItem.updatePos()
@@ -57,20 +50,20 @@ def gameLoop(gameDisplay, clock, langData, events, keys, ScreenObj):
                 continue  # Skip drawing if removed for being off-screen
 
             foodItem.drawFood(gameDisplay)
-        return "play"
 
+        if hungryMouthV.lives <= 0:
+            return "gameOver"
 
         # # UI text
         # font = pygame.font.Font(langData.get("fontPath"), 28)
         # helpers.messageDisplay(gameDisplay, f"{langData.get('scoreText')}: {score}", 28, langData.get("fontPath"), color.black, 20, 20)
         # helpers.messageDisplay(gameDisplay, f"{langData.get('livesText')}: {hungryMouthV.lives}", 28, langData.get("fontPath"), color.red, 20, 60)
 
-        # pygame.display.update()
-        # clock.tick(60)
+        pygame.display.update()
+        clock.tick(60)
 
 
-def spawnFoodWave(gameDisplay, langData):
-    foodList = []
+def spawnFoodWave(gameDisplay, langData, foodList):    
     waveSize = random.choice([1,2,3])
     if waveSize ==1:
         poison =  random.choice([True, False])
