@@ -21,9 +21,10 @@ def resource_path(relative_path):
     return os.path.join(base_path, relative_path)
 
 #Properly render arabic text
-def makeArabic(text: str) -> str:
-    reshapeText = arabic_reshaper.reshape(text) 
-    return get_display(reshapeText)
+def makeArabic(text: str) -> str:   
+    reshaped = arabic_reshaper.reshape(text)
+    bidi_text = get_display(reshaped, base_dir='R')
+    return bidi_text
 
 #Draw a rectangle
 def rectangle(gameDisplay, thingX, thingY, thingW, thingH, color):
@@ -37,8 +38,6 @@ def textToSurface(text, font, color=color.black):
 #Function to display a text message
 def messageDisplay(gameDisplay, text, fontSize = 115, fontTTF = "assets/fonts/freesansbold.ttf",  color = color.black, xCen=-1, yCen=-1, lang = "en"):
     (displayWidth, displayHeight) = gameDisplay.get_size()
-    if lang =="ar":
-        text = makeArabic(text)
     textSize = pygame.font.Font(fontTTF, fontSize)
     textSurf, textRect = textToSurface(text, textSize, color)
     if (xCen == -1):

@@ -1,14 +1,18 @@
 {
     "gameTitle": "The Hungry Mouth",
     "instructionsTitle": "Instructions",
-    "instructionsDesc": "Eat healthy food to gain points. Avoid poison! You have 3 lives.",
-    "playTitle": "PLAY",
-    "quitTitle": "QUIT",
+    "instructionsD1": "Use ← → arrow keys to move.",
+    "instructionsD2": "Eat healthy food to gain points.",
+    "instructionsD3": "Avoid poison! You have 3 lives.",
+    "instructionsD4": "Press P to Pause, Escape to Quit",
+    "instructionsD5": "M to Mute / Unmute",
+    "playTitle": "Play",
+    "quitTitle": "Quit",
     "livesLabel": "Lives",
     "scoreLabel": "Score",
-    "gameOverMessage": "GAME OVER!",
+    "gameOverMessage": "Game Over!",
     "pauseMessage": "PAUSED",
-    "resumeButton": "RESUME",
+    "resumeButton": "Resume",
     "restartButton": "RESTART",
     "soundOn": "Sound On",
     "soundOff": "Sound Off",
@@ -34,14 +38,9 @@
         }
     ],
     "sfxGameOver": "assets/sounds/sfx_en_game_over.wav",
-    "instr1": "Eat only healthy food!",
-    "instr2": "Avoid poisons to survive.",
-    "instr3": "Use ← → arrow keys to move.",
-    "instr4": "Press P to pause.",
-    "instr5": "You have 3 lives!",
     "backButton": "Back",
     "sfxGoodJob": "assets/sounds/sfx_en_good_job.wav",
     "fontPath": "assets/fonts/arial.ttf",
-    "language": "en"
-
+    "language": "en",
+    "sfxGoodBye": "assets/sounds/sfx_en_good_bye.wav"
 }

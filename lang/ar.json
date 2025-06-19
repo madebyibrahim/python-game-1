@@ -1,9 +1,13 @@
 {
     "gameTitle": "تمّو جوعان",
-    "11instructionsTitle": "التعليمات",
-    "instructionsDesc": "كول أكل صحي لتربح نقاط. انتبه من السم، عندك ٣ محاولات.",
-    "11playButton": "بَلّش",
-    "11quitButton": "زحط",
+    "instructionsTitle": "التعليمات",
+    "instructionsD1": "استخدم أزرار الأسهم للحركة",
+    "instructionsD2": "كل الطعام الصحي لتحصل على نقاط",
+    "instructionsD3": "تجنب السموم! لديك 3 حيوات",
+    "instructionsD4": "إضغط P للإيقاف المؤقت, Escape للخروج",
+    "instructionsD5": "M لكتم أو تشغيل الصوت",
+    "playTitle": "بَلّش",
+    "quitTitle": "زحط",
     "livesLabel": "المحاولات",
     "scoreLabel": "النقاط",
     "gameOverMessage": "خلصت اللعبة!",
@@ -34,20 +38,11 @@
         }
     ],
     "sfxGameOver": "assets/sounds/sfx_ar_game_over.wav",
-    "mainTitle": "الفم الجائع",
-    "playButton": "ابدأ",
-    "instructionsButton": "التعليمات",
-    "quitButton": "خروج",
-    "instructionsTitle": "التعليمات",
-    "instr1": "كُل الطعام الصحي فقط!",
-    "instr2": "تجنب السموم للبقاء.",
-    "instr3": "استخدم الأسهم للتحرك.",
-    "instr4": "اضغط P للإيقاف المؤقت.",
-    "instr5": "لديك 3 محاولات!",
     "backButton": "رجوع",
     "sfxGoodJob": "assets/sounds/sfx_ar_good_job.wav",
-    "fontPath": "assets/fonts/traditional_arabic.ttf",
-    "language": "ar"
+    "fontPath": "assets/fonts/NotoNaskhArabic-Regular.ttf",
+    "language": "ar",
+    "sfxGoodBye": "assets/sounds/sfx_ar_good_bye.wav"
 
 
 

@@ -14,7 +14,7 @@ class food:
         if isPoison:
             poisonData = random.choice(langData["poisonFood"])
             imagePath = poisonData.get("image")
-            self.sfxPath = poisonData.get("sfx", "")
+            self.sfxPath = poisonData.get("sfx")
         else:
             imagePath = random.choice(langData['healthyFood'])
             self.sfxPath = ''

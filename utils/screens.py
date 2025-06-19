@@ -4,6 +4,7 @@ from utils import colors as color
 from utils import helpers
 
 class Screen:
+    #done
     def __init__(self, gameDisplayy):
         self.gameDisplay = gameDisplayy
         self.displayWidth, self.displayHeight = gameDisplayy.get_size()
@@ -18,8 +19,9 @@ class Screen:
         # Load images once
         self.enFlag = helpers.resource_path("assets/images/usa_flag.png")
         self.arFlag = helpers.resource_path("assets/images/lebanon_flag.png")
-        self.selectedLang = None 
+        self.selectedLang = None
     
+    # done
     def showLanguageSelection(self, events):
         gameDisplay = self.gameDisplay
         gameDisplay.fill(color.white)
@@ -41,152 +43,75 @@ class Screen:
                     self.selectedLang = "ar"
         return self.selectedLang
 
+    # done
+    def showAggressiveQuit(self, langData):
+        sfxGoodBye = pygame.mixer.Sound(helpers.resource_path(langData.get("sfxGoodBye")))
+        sfxGoodBye.play()
+        while pygame.mixer.get_busy():  # Loop while any sound is playing
+            pygame.time.delay(100)  # Short delay to reduce CPU usage
+        sys.exit()
+
+    def showGameOverScreen(self, langData, events):
+        self.gameDisplay.fill(color.white)
+        if helpers.button(self.gameDisplay,"", self.displayWidth/2 - 150, self.displayHeight/2, 300, 80, color.gray, color.lightGray, events):
+            return "playAgain"
+        if helpers.button(self.gameDisplay, "", self.displayWidth/2 - 150, self.displayHeight/2 + 100, 300, 80, color.gray, color.lightGray, events):
+            return "quit"
+
+        helpers.messageDisplay(self.gameDisplay, langData.get("gameOverMessage"), 80, langData.get("fontPath"), color.red, -1,-1,langData.get("language"))
+        gameOverSound = pygame.mixer.Sound(helpers.resource_path(langData.get("sfxGameOver")))
+        gameOverSound.play()
+        # while pygame.mixer.get_busy():  # Loop while any sound is playing
+        #     pygame.time.delay(100)  # Short delay to reduce CPU usage
+        # sys.exit()
+        return None
+
+    # done
+    def showPauseScreen(self, langData, events):
+        self.gameDisplay.fill(color.white)
+        # resume
+        if helpers.button(self.gameDisplay, "", self.displayWidth/2 - 350, self.displayHeight/2 + 100 , 280, 80, color.gray, color.lightGray, events):
+            return 2
+        #  quit
+        if helpers.button(self.gameDisplay, "", self.displayWidth/2 + 100, self.displayHeight/2 + 100 , 280, 80, color.gray, color.lightGray, events):
+            return 1
+        helpers.messageDisplay(self.gameDisplay,langData.get("gameTitle"),100, langData.get("fontPath"), color.black, -1, 100, langData.get("language"))
+        helpers.messageDisplay(self.gameDisplay,langData.get("resumeButton"),60, langData.get("fontPath"), color.red, self.displayWidth/2 - 210, self.displayHeight/2 + 140, langData.get("language"))
+        helpers.messageDisplay(self.gameDisplay,langData.get("quitTitle"),60, langData.get("fontPath"), color.red, self.displayWidth/2 + 240, self.displayHeight/2 + 140, langData.get("language"))
 
 
-def showGameOverScreen(gameDisplay, langText):
-    titleFont = pygame.font.Font(None, 80)
-    buttonFont = pygame.font.Font(None, 50)
-    gameOverText = titleFont.render(langText["gameOverMessage"], True, color.red)
-    playAgainText = buttonFont.render(langText["restartButton"], True, color.black)
-    quitText = buttonFont.render(langText["quitButton"], True, color.black)
-    playAgainRect = pygame.Rect(300, 400, 180, 60)
-    quitRect = pygame.Rect(550, 400, 180, 60)
 
-    while True:
-        gameDisplay.fill(color.white)
-        gameDisplay.blit(gameOverText, (300, 200))
+    # done
+    def showMainMenu(self, langData, events):
+        self.gameDisplay.fill(color.white)
+        #display text boxes
+        if helpers.button(self.gameDisplay, "", self.displayWidth/2 - 175, self.displayHeight/2  , 350, 90, color.gray, color.lightGray, events):
+            return 1
+        if helpers.button(self.gameDisplay, "", self.displayWidth/2 - 175, self.displayHeight/2 + 100 , 350, 90, color.gray, color.lightGray, events):
+            return 2
+        if helpers.button(self.gameDisplay, "", self.displayWidth/2 - 175, self.displayHeight/2 + 200 , 350, 90, color.gray, color.lightGray, events):
+            return 3
+        # Display the text boxes first and then the text
+        helpers.messageDisplay(self.gameDisplay,langData.get("gameTitle"),100, langData.get("fontPath"), color.black, -1, 100, langData.get("language"))
+        helpers.messageDisplay(self.gameDisplay,langData.get("playTitle"),60, langData.get("fontPath"), color.red, -1, self.displayHeight/2 + 45, langData.get("language"))
+        helpers.messageDisplay(self.gameDisplay,langData.get("instructionsTitle"),60, langData.get("fontPath"), color.red, -1, self.displayHeight/2 + 145, langData.get("language"))
+        helpers.messageDisplay(self.gameDisplay,langData.get("quitTitle"),60, langData.get("fontPath"), color.red, -1, self.displayHeight/2 + 245, langData.get("language"))
+        return -1        
 
-        pygame.draw.rect(gameDisplay, color.gray, playAgainRect)
-        pygame.draw.rect(gameDisplay, color.gray, quitRect)
+    # done
+    def showInstructionsScreen(self, langData, events):
+       
+        self.gameDisplay.fill(color.white)
 
-        gameDisplay.blit(playAgainText, (playAgainRect.x + 20, playAgainRect.y + 10))
-        gameDisplay.blit(quitText, (quitRect.x + 40, quitRect.y + 10))
+        helpers.messageDisplay(self.gameDisplay,langData.get("instructionsTitle"),100, langData.get("fontPath"), color.black, -1, 100, langData.get("language"))
+        helpers.messageDisplay(self.gameDisplay,langData.get("instructionsD1"),30, langData.get("fontPath"), color.red, -1, self.displayHeight/2 - 100, langData.get("language"))
+        helpers.messageDisplay(self.gameDisplay,langData.get("instructionsD2"),30, langData.get("fontPath"), color.red, -1, self.displayHeight/2 - 50, langData.get("language"))
+        helpers.messageDisplay(self.gameDisplay,langData.get("instructionsD3"),30, langData.get("fontPath"), color.red, -1, self.displayHeight/2 , langData.get("language"))
+        helpers.messageDisplay(self.gameDisplay,langData.get("instructionsD4"),30, langData.get("fontPath"), color.red, -1, self.displayHeight/2 + 50, langData.get("language"))
+        helpers.messageDisplay(self.gameDisplay,langData.get("instructionsD5"),30, langData.get("fontPath"), color.red, -1, self.displayHeight/2 + 100, langData.get("language"))
+        helpers.messageDisplay(self.gameDisplay,langData.get("backButton"),50, langData.get("fontPath"), color.red, self.displayWidth/2 + 225, self.displayHeight/2 + 232, langData.get("language"))
+    
+        if helpers.button(self.gameDisplay, "", self.displayWidth/2 + 100, self.displayHeight/2 + 200 , 250, 70, color.gray, color.lightGray, events):
+            return True
 
-        pygame.display.update()
-
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                exit()
-            elif event.type == pygame.MOUSEBUTTONDOWN:
-                mousePos = pygame.mouse.get_pos()
-                if playAgainRect.collidepoint(mousePos):
-                    return "restart"
-                elif quitRect.collidepoint(mousePos):
-                    pygame.quit()
-                    exit()
-
-
-def showPauseScreen(gameDisplay, langText):
-    fontBig = pygame.font.Font(None, 80)
-    fontSmall = pygame.font.Font(None, 50)
-
-    pauseText = fontBig.render(langText.get("pauseMessage", "PAUSED"), True, color.black)
-    resumeText = fontSmall.render(langText.get("resumeButton", "Resume"), True, color.black)
-    quitText = fontSmall.render(langText.get("quitButton", "Quit"), True, color.black)
-
-    resumeRect = pygame.Rect(300, 400, 180, 60)
-    quitRect = pygame.Rect(550, 400, 180, 60)
-
-    while True:
-        gameDisplay.fill(color.white)
-        gameDisplay.blit(pauseText, (300, 200))
-
-        pygame.draw.rect(gameDisplay, color.gray, resumeRect)
-        pygame.draw.rect(gameDisplay, color.gray, quitRect)
-
-        gameDisplay.blit(resumeText, (resumeRect.x + 20, resumeRect.y + 10))
-        gameDisplay.blit(quitText, (quitRect.x + 40, quitRect.y + 10))
-
-        pygame.display.update()
-
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                exit()
-            elif event.type == pygame.MOUSEBUTTONDOWN:
-                mousePos = pygame.mouse.get_pos()
-                if resumeRect.collidepoint(mousePos):
-                    return "resume"
-                elif quitRect.collidepoint(mousePos):
-                    return "quit"
-
-def showMainMenu(gameDisplay, langText, events):
-
-    fontTitle = pygame.font.Font(None, 90)
-    fontBtn = pygame.font.Font(None, 50)
-
-    title = fontTitle.render(langText.get("mainTitle", "The Hungry Mouth"), True, color.black)
-    playText = fontBtn.render(langText.get("playButton", "Play"), True, color.black)
-    instText = fontBtn.render(langText.get("instructionsButton", "Instructions"), True, color.black)
-    quitText = fontBtn.render(langText.get("quitButton", "Quit"), True, color.black)
-
-    playRect = helpers.button(gameDisplay, "",320, 320,180,60,color.gray, color.lightGray, events)
-    instRect = pygame.Rect(320, 380, 180, 60)
-    quitRect = pygame.Rect(320, 460, 180, 60)
-
-    while True:
-        gameDisplay.fill(color.white)
-        gameDisplay.blit(title, (200, 150))
-
-        # pygame.draw.rect(gameDisplay, color.gray, playRect)
-        pygame.draw.rect(gameDisplay, color.gray, instRect)
-        pygame.draw.rect(gameDisplay, color.gray, quitRect)
-
-        # gameDisplay.blit(playText, (playRect.x + 30, playRect.y + 10))
-        gameDisplay.blit(instText, (instRect.x + 5, instRect.y + 10))
-        gameDisplay.blit(quitText, (quitRect.x + 30, quitRect.y + 10))
-
-        pygame.display.update()
-
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                return "quit"
-            # elif event.type == pygame.MOUSEBUTTONDOWN:
-            #     pos = pygame.mouse.get_pos()
-            #     if playRect.collidepoint(pos):
-            #         return "play"
-            #     elif instRect.collidepoint(pos):
-            #         return "instructions"
-            #     elif quitRect.collidepoint(pos):
-            #         return "quit"
-
-
-def showInstructionsScreen(gameDisplay, langText):
-    fontTitle = pygame.font.Font(None, 70)
-    fontBody = pygame.font.Font(None, 40)
-
-    instructions = [
-        langText.get("instr1", "Eat only healthy food!"),
-        langText.get("instr2", "Avoid poisons to survive."),
-        langText.get("instr3", "Use ← → arrow keys to move."),
-        langText.get("instr4", "Press P to pause."),
-        langText.get("instr5", "You have 3 lives!")
-    ]
-
-    backText = fontBody.render(langText.get("backButton", "Back"), True, color.black)
-    backRect = pygame.Rect(320, 500, 180, 60)
-
-    while True:
-        gameDisplay.fill(color.white)
-        title = fontTitle.render(langText.get("instructionsTitle", "Instructions"), True, color.black)
-        gameDisplay.blit(title, (250, 100))
-
-        for i, line in enumerate(instructions):
-            text = fontBody.render(line, True, color.black)
-            gameDisplay.blit(text, (100, 180 + i * 50))
-
-        pygame.draw.rect(gameDisplay, color.gray, backRect)
-        gameDisplay.blit(backText, (backRect.x + 50, backRect.y + 10))
-
-        pygame.display.update()
-
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-            elif event.type == pygame.MOUSEBUTTONDOWN:
-                pos = pygame.mouse.get_pos()
-                if backRect.collidepoint(pos):
-                    return
 
