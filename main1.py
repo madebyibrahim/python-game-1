@@ -43,7 +43,7 @@ def main():
     hungryMouthV = hungryMouth(gameDisplay)
     score = 0
     foodList = []
-    GOSCount = 1
+    GOSCount = [1]
 
     while True:
         events = pygame.event.get()
@@ -95,6 +95,7 @@ def main():
                     score = 0
                     foodList = []
                     hungryMouthV.lives = 3
+                    GOSCount[0] = 1
                     state = "play"
                 elif result == "aggressiveQuit":
                     ScreenObj.showAggressiveQuit(langData)

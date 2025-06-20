@@ -17,6 +17,10 @@ def gameLoop(gameDisplay, clock, langData, ScreenObj, hungryMouthV, score, foodL
             if event.type == pygame.QUIT or keys[pygame.K_ESCAPE]:
                 return "aggressiveQuit"
         gameDisplay.fill(color.white)
+        pygame.draw.rect(gameDisplay, color.white, (0, 0, gameDisplay.get_width(), 100))
+        font = pygame.font.Font(langData.get("fontPath"), 28)
+        helpers.messageDisplay(gameDisplay, f"{langData.get('scoreLabel')}: {score}", 28, langData.get("fontPath"), color.black, 60, 30)
+        helpers.messageDisplay(gameDisplay, f"{langData.get('livesLabel')}: {hungryMouthV.lives}", 28, langData.get("fontPath"), color.red, gameDisplay.get_width() - 200, 30)
         # hungryMouthV.drawMouth(gameDisplay)
         if keys[pygame.K_LEFT] or keys[pygame.K_a]:
             hungryMouthV.moveLeft()
@@ -55,7 +59,6 @@ def gameLoop(gameDisplay, clock, langData, ScreenObj, hungryMouthV, score, foodL
             return "gameOver"
 
         # # UI text
-        # font = pygame.font.Font(langData.get("fontPath"), 28)
         # helpers.messageDisplay(gameDisplay, f"{langData.get('scoreText')}: {score}", 28, langData.get("fontPath"), color.black, 20, 20)
         # helpers.messageDisplay(gameDisplay, f"{langData.get('livesText')}: {hungryMouthV.lives}", 28, langData.get("fontPath"), color.red, 20, 60)
 

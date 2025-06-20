@@ -55,8 +55,8 @@ class Screen:
         sys.exit()
 
     def showGameOverScreen(self, langData, events, GOSCount):
-        if GOSCount >0:
-            GOSCount -= 1
+        if GOSCount[0] >0:
+            GOSCount[0] -= 1
             gameOverSound = pygame.mixer.Sound(helpers.resource_path(langData.get("sfxGameOver")))
             while pygame.mixer.get_busy():  # Loop while any sound is playing
                 pygame.time.delay(200)  # Short delay to reduce CPU usage
@@ -71,6 +71,11 @@ class Screen:
         helpers.messageDisplay(self.gameDisplay, langData.get("gameOverMessage"), 100, langData.get("fontPath"), color.black, -1,self.displayHeight/4,langData.get("language"))
         helpers.messageDisplay(self.gameDisplay, langData.get("playTitle"), 50, langData.get("fontPath"), color.red, self.displayWidth/2 ,self.displayHeight/2 + 40,langData.get("language"))
         helpers.messageDisplay(self.gameDisplay, langData.get("quitTitle"), 50, langData.get("fontPath"), color.red, self.displayWidth/2 ,self.displayHeight/2 + 140, langData.get("language"))
+        for event in events:
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_KP1:
+                return "playAgain"
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_KP2:
+                return "aggressiveQuit"
 
 
     # done
