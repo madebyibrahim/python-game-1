@@ -1,7 +1,5 @@
 #Version 1.0
 
-## when we finish change the theme and make it a mouth thats eats food and avoids poison
-
 import pygame, pygame.mixer
 import sys
 
