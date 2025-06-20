@@ -23,13 +23,14 @@ class Screen:
     
     # done
     def showLanguageSelection(self, events):
+        self.selectedLang = None
         gameDisplay = self.gameDisplay
         gameDisplay.fill(color.white)
         helpers.messageDisplay(gameDisplay,self.enChooseText,95, self.enFont, color.black, -1, self.displayHeight/10)
         helpers.messageDisplay(gameDisplay,self.arChooseText,115, self.arFont, color.black, -1, self.displayHeight/4 + 40)
-        if (helpers.button(gameDisplay, "", self.displayWidth/2 - 125, self.displayHeight/2  , 250, 70, color.gray, color.lightGray, events)) or (pygame.key.get_pressed()[pygame.K_KP1]):
+        if (helpers.button(gameDisplay, "", self.displayWidth/2 - 125, self.displayHeight/2  , 250, 70, color.gray, color.lightGray, events)):
             self.selectedLang = "en"
-        if helpers.button(gameDisplay, "", self.displayWidth/2 - 125, self.displayHeight/2 + 95 , 250, 70, color.gray, color.lightGray, events) or  (pygame.key.get_pressed()[pygame.K_KP2]):
+        if helpers.button(gameDisplay, "", self.displayWidth/2 - 125, self.displayHeight/2 + 95 , 250, 70, color.gray, color.lightGray, events):
             self.selectedLang = "ar"    
         helpers.messageDisplay(gameDisplay,self.arTitle,55, self.arFont, color.red, -1, self.displayHeight/2 + 130)
         helpers.messageDisplay(gameDisplay,self.enTitle,40, self.enFont, color.red, -1, self.displayHeight/2 + 30)
@@ -37,9 +38,9 @@ class Screen:
         helpers.showImage(gameDisplay, self.enFlag, (self.displayWidth/2 - 300), (self.displayHeight/2), (140,70))        
         for event in events:
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_e:  # E key for English
+                if event.key == pygame.K_e or event.key == pygame.K_KP1:  # E key for English
                     self.selectedLang = "en"
-                elif event.key == pygame.K_a:  # A key for Arabic
+                elif event.key == pygame.K_a or event.key == pygame.K_KP2:  # A key for Arabic
                     self.selectedLang = "ar"
         return self.selectedLang
 
@@ -53,19 +54,23 @@ class Screen:
             pygame.time.delay(100)
         sys.exit()
 
-    def showGameOverScreen(self, langData, events):
+    def showGameOverScreen(self, langData, events, GOSCount):
+        if GOSCount >0:
+            GOSCount -= 1
+            gameOverSound = pygame.mixer.Sound(helpers.resource_path(langData.get("sfxGameOver")))
+            while pygame.mixer.get_busy():  # Loop while any sound is playing
+                pygame.time.delay(200)  # Short delay to reduce CPU usage
+            gameOverSound.play()
+            
         self.gameDisplay.fill(color.white)
         if helpers.button(self.gameDisplay,"", self.displayWidth/2 - 150, self.displayHeight/2, 300, 80, color.gray, color.lightGray, events):
             return "playAgain"
         if helpers.button(self.gameDisplay, "", self.displayWidth/2 - 150, self.displayHeight/2 + 100, 300, 80, color.gray, color.lightGray, events):
             return "aggressiveQuit"
 
-        helpers.messageDisplay(self.gameDisplay, langData.get("gameOverMessage"), 80, langData.get("fontPath"), color.red, -1,self.displayHeight/4,langData.get("language"))
-        gameOverSound = pygame.mixer.Sound(helpers.resource_path(langData.get("sfxGameOver")))
-        while pygame.mixer.get_busy():  # Loop while any sound is playing
-            pygame.time.delay(100)  # Short delay to reduce CPU usage
-        gameOverSound.play()
-        # sys.exit()
+        helpers.messageDisplay(self.gameDisplay, langData.get("gameOverMessage"), 100, langData.get("fontPath"), color.black, -1,self.displayHeight/4,langData.get("language"))
+        helpers.messageDisplay(self.gameDisplay, langData.get("playTitle"), 50, langData.get("fontPath"), color.red, self.displayWidth/2 ,self.displayHeight/2 + 40,langData.get("language"))
+        helpers.messageDisplay(self.gameDisplay, langData.get("quitTitle"), 50, langData.get("fontPath"), color.red, self.displayWidth/2 ,self.displayHeight/2 + 140, langData.get("language"))
 
 
     # done
@@ -84,9 +89,9 @@ class Screen:
 
 
     # done
-    def showMainMenu(self, langData):
+    def showMainMenu(self, langData, events):
         self.gameDisplay.fill(color.white)
-        events = pygame.event.get()
+        # events = pygame.event.get()
         #display text boxes
         if helpers.button(self.gameDisplay, "", self.displayWidth/2 - 175, self.displayHeight/2  , 350, 90, color.gray, color.lightGray, events):
             return 1 # play
@@ -95,9 +100,14 @@ class Screen:
         if helpers.button(self.gameDisplay, "", self.displayWidth/2 - 175, self.displayHeight/2 + 200 , 350, 90, color.gray, color.lightGray, events):
             return 3 # quit
         for event in events:
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_BACKSPACE:
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_BACKSPACE:
                     return 4 # return back to language selection
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_KP1:
+                return 1
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_KP2:
+                return 2
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_KP3:
+                return 3
         # Display the text boxes first and then the text
         helpers.messageDisplay(self.gameDisplay,langData.get("gameTitle"),100, langData.get("fontPath"), color.black, -1, 100, langData.get("language"))
         helpers.messageDisplay(self.gameDisplay,langData.get("playTitle"),60, langData.get("fontPath"), color.red, -1, self.displayHeight/2 + 45, langData.get("language"))
@@ -116,10 +126,11 @@ class Screen:
         helpers.messageDisplay(self.gameDisplay,langData.get("instructionsD3"),30, langData.get("fontPath"), color.red, -1, self.displayHeight/2 , langData.get("language"))
         helpers.messageDisplay(self.gameDisplay,langData.get("instructionsD4"),30, langData.get("fontPath"), color.red, -1, self.displayHeight/2 + 50, langData.get("language"))
         helpers.messageDisplay(self.gameDisplay,langData.get("instructionsD5"),30, langData.get("fontPath"), color.red, -1, self.displayHeight/2 + 100, langData.get("language"))
-        helpers.messageDisplay(self.gameDisplay,langData.get("backButton"),50, langData.get("fontPath"), color.red, self.displayWidth/2 + 225, self.displayHeight/2 + 232, langData.get("language"))
     
         if helpers.button(self.gameDisplay, "", self.displayWidth/2 + 100, self.displayHeight/2 + 200 , 250, 70, color.gray, color.lightGray, events):
             return True
+        helpers.messageDisplay(self.gameDisplay,langData.get("backButton"),50, langData.get("fontPath"), color.red, self.displayWidth/2 + 225, self.displayHeight/2 + 232, langData.get("language"))
+
         for event in events:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_BACKSPACE:

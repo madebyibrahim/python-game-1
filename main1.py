@@ -43,6 +43,7 @@ def main():
     hungryMouthV = hungryMouth(gameDisplay)
     score = 0
     foodList = []
+    GOSCount = 1
 
     while True:
         events = pygame.event.get()
@@ -71,6 +72,9 @@ def main():
                     state = "play"
                 elif result == 4:
                     state = "languageSelection"
+                    selectedLang = None
+                    langData = None
+
 
             elif state == "instructions":
                 back = ScreenObj.showInstructionsScreen(langData, events)
@@ -86,8 +90,11 @@ def main():
                 elif gameResult == "pause": ## still undeveloped code
                     return 420
             elif state == "gameOver":
-                result = ScreenObj.showGameOverScreen(langData, events)
+                result = ScreenObj.showGameOverScreen(langData, events, GOSCount)
                 if result == "playAgain":
+                    score = 0
+                    foodList = []
+                    hungryMouthV.lives = 3
                     state = "play"
                 elif result == "aggressiveQuit":
                     ScreenObj.showAggressiveQuit(langData)
