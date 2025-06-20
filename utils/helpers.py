@@ -36,7 +36,7 @@ def textToSurface(text, font, color=color.black):
     return textSurface, textSurface.get_rect()
 
 #Function to display a text message
-def messageDisplay(gameDisplay, text, fontSize = 115, fontTTF = "assets/fonts/freesansbold.ttf",  color = color.black, xCen=-1, yCen=-1, lang = "en"):
+def messageDisplay(gameDisplay, text, fontSize = 115, fontTTF = resource_path("assets/fonts/freesansbold.ttf"),  color = color.black, xCen=-1, yCen=-1, lang = "en"):
     (displayWidth, displayHeight) = gameDisplay.get_size()
     textSize = pygame.font.Font(fontTTF, fontSize)
     textSurf, textRect = textToSurface(text, textSize, color)
@@ -58,7 +58,7 @@ def showImage(gameDisplay, imagePath, x=-1,y=-1, size = None):
         y=displayHeight/2
     gameDisplay.blit(img,(x,y))
 
-def button(gameDisplay, msg, x, y, w, h, inactiveColor, activeColor, events, lang = "", fontPath = "", fontSize = 30):
+def button(gameDisplay, msg, x, y, w, h, inactiveColor, activeColor, events, lang = "", fontPath = resource_path(""), fontSize = 30):
     mousePos = pygame.mouse.get_pos()
     clicked = False
     langData = None
@@ -76,13 +76,13 @@ def button(gameDisplay, msg, x, y, w, h, inactiveColor, activeColor, events, lan
         if fontPath == "":
             lang = "en"
             langData = loadLanguageData(lang)
-            fontPath = langData.get("fontPath")
+            fontPath = resource_path(langData.get("fontPath"))
         elif fontPath != "":
             lang = "en"
     elif lang != "":
         if fontPath == "":
             langData = loadLanguageData(lang)
-            fontPath = langData.get("fontPath")
+            fontPath = resource_path(langData.get("fontPath"))
     smallText = pygame.font.Font(resource_path(fontPath), fontSize)
     textSurf, textRect = textToSurface(msg, smallText)
     textRect.center = (x + (w / 2), y + (h / 2))

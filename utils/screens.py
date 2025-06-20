@@ -9,8 +9,8 @@ class Screen:
         self.gameDisplay = gameDisplayy
         self.displayWidth, self.displayHeight = gameDisplayy.get_size()
         # Load fonts once
-        self.enFont = helpers.loadLanguageData("en").get("fontPath")
-        self.arFont = helpers.loadLanguageData("ar").get("fontPath")
+        self.enFont = helpers.resource_path(helpers.loadLanguageData("en").get("fontPath"))
+        self.arFont = helpers.resource_path(helpers.loadLanguageData("ar").get("fontPath"))
         # Preprocess text once
         self.arTitle = helpers.makeArabic("العربية ﴿A﴾")
         self.enTitle = "English (E)"
@@ -68,9 +68,9 @@ class Screen:
         if helpers.button(self.gameDisplay, "", self.displayWidth/2 - 150, self.displayHeight/2 + 100, 300, 80, color.gray, color.lightGray, events):
             return "aggressiveQuit"
 
-        helpers.messageDisplay(self.gameDisplay, langData.get("gameOverMessage"), 100, langData.get("fontPath"), color.black, -1,self.displayHeight/4,langData.get("language"))
-        helpers.messageDisplay(self.gameDisplay, langData.get("playTitle"), 50, langData.get("fontPath"), color.red, self.displayWidth/2 ,self.displayHeight/2 + 40,langData.get("language"))
-        helpers.messageDisplay(self.gameDisplay, langData.get("quitTitle"), 50, langData.get("fontPath"), color.red, self.displayWidth/2 ,self.displayHeight/2 + 140, langData.get("language"))
+        helpers.messageDisplay(self.gameDisplay, langData.get("gameOverMessage"), 100, helpers.resource_path(langData.get("fontPath")), color.black, -1,self.displayHeight/4,langData.get("language"))
+        helpers.messageDisplay(self.gameDisplay, langData.get("playTitle"), 50, helpers.resource_path(langData.get("fontPath")), color.red, self.displayWidth/2 ,self.displayHeight/2 + 40,langData.get("language"))
+        helpers.messageDisplay(self.gameDisplay, langData.get("quitTitle"), 50, helpers.resource_path(langData.get("fontPath")), color.red, self.displayWidth/2 ,self.displayHeight/2 + 140, langData.get("language"))
         for event in events:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_KP1:
                 return "playAgain"
@@ -87,9 +87,9 @@ class Screen:
         #  quit
         if helpers.button(self.gameDisplay, "", self.displayWidth/2 + 100, self.displayHeight/2 + 100 , 280, 80, color.gray, color.lightGray, events):
             return 1
-        helpers.messageDisplay(self.gameDisplay,langData.get("gameTitle"),100, langData.get("fontPath"), color.black, -1, 100, langData.get("language"))
-        helpers.messageDisplay(self.gameDisplay,langData.get("resumeButton"),60, langData.get("fontPath"), color.red, self.displayWidth/2 - 210, self.displayHeight/2 + 140, langData.get("language"))
-        helpers.messageDisplay(self.gameDisplay,langData.get("quitTitle"),60, langData.get("fontPath"), color.red, self.displayWidth/2 + 240, self.displayHeight/2 + 140, langData.get("language"))
+        helpers.messageDisplay(self.gameDisplay,langData.get("gameTitle"),100, helpers.resource_path(langData.get("fontPath")), color.black, -1, 100, langData.get("language"))
+        helpers.messageDisplay(self.gameDisplay,langData.get("resumeButton"),60, helpers.resource_path(langData.get("fontPath")), color.red, self.displayWidth/2 - 210, self.displayHeight/2 + 140, langData.get("language"))
+        helpers.messageDisplay(self.gameDisplay,langData.get("quitTitle"),60, helpers.resource_path(langData.get("fontPath")), color.red, self.displayWidth/2 + 240, self.displayHeight/2 + 140, langData.get("language"))
 
 
 
@@ -114,10 +114,10 @@ class Screen:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_KP3:
                 return 3
         # Display the text boxes first and then the text
-        helpers.messageDisplay(self.gameDisplay,langData.get("gameTitle"),100, langData.get("fontPath"), color.black, -1, 100, langData.get("language"))
-        helpers.messageDisplay(self.gameDisplay,langData.get("playTitle"),60, langData.get("fontPath"), color.red, -1, self.displayHeight/2 + 45, langData.get("language"))
-        helpers.messageDisplay(self.gameDisplay,langData.get("instructionsTitle"),60, langData.get("fontPath"), color.red, -1, self.displayHeight/2 + 145, langData.get("language"))
-        helpers.messageDisplay(self.gameDisplay,langData.get("quitTitle"),60, langData.get("fontPath"), color.red, -1, self.displayHeight/2 + 245, langData.get("language"))
+        helpers.messageDisplay(self.gameDisplay,langData.get("gameTitle"),100, helpers.resource_path(langData.get("fontPath")), color.black, -1, 100, langData.get("language"))
+        helpers.messageDisplay(self.gameDisplay,langData.get("playTitle"),60, helpers.resource_path(langData.get("fontPath")), color.red, -1, self.displayHeight/2 + 45, langData.get("language"))
+        helpers.messageDisplay(self.gameDisplay,langData.get("instructionsTitle"),60, helpers.resource_path(langData.get("fontPath")), color.red, -1, self.displayHeight/2 + 145, langData.get("language"))
+        helpers.messageDisplay(self.gameDisplay,langData.get("quitTitle"),60, helpers.resource_path(langData.get("fontPath")), color.red, -1, self.displayHeight/2 + 245, langData.get("language"))
         return -1        
 
     # done
@@ -125,16 +125,16 @@ class Screen:
        
         self.gameDisplay.fill(color.white)
 
-        helpers.messageDisplay(self.gameDisplay,langData.get("instructionsTitle"),100, langData.get("fontPath"), color.black, -1, 100, langData.get("language"))
-        helpers.messageDisplay(self.gameDisplay,langData.get("instructionsD1"),30, langData.get("fontPath"), color.red, -1, self.displayHeight/2 - 100, langData.get("language"))
-        helpers.messageDisplay(self.gameDisplay,langData.get("instructionsD2"),30, langData.get("fontPath"), color.red, -1, self.displayHeight/2 - 50, langData.get("language"))
-        helpers.messageDisplay(self.gameDisplay,langData.get("instructionsD3"),30, langData.get("fontPath"), color.red, -1, self.displayHeight/2 , langData.get("language"))
-        helpers.messageDisplay(self.gameDisplay,langData.get("instructionsD4"),30, langData.get("fontPath"), color.red, -1, self.displayHeight/2 + 50, langData.get("language"))
-        helpers.messageDisplay(self.gameDisplay,langData.get("instructionsD5"),30, langData.get("fontPath"), color.red, -1, self.displayHeight/2 + 100, langData.get("language"))
+        helpers.messageDisplay(self.gameDisplay,langData.get("instructionsTitle"),100, helpers.resource_path(langData.get("fontPath")), color.black, -1, 100, langData.get("language"))
+        helpers.messageDisplay(self.gameDisplay,langData.get("instructionsD1"),30, helpers.resource_path(langData.get("fontPath")), color.red, -1, self.displayHeight/2 - 100, langData.get("language"))
+        helpers.messageDisplay(self.gameDisplay,langData.get("instructionsD2"),30, helpers.resource_path(langData.get("fontPath")), color.red, -1, self.displayHeight/2 - 50, langData.get("language"))
+        helpers.messageDisplay(self.gameDisplay,langData.get("instructionsD3"),30, helpers.resource_path(langData.get("fontPath")), color.red, -1, self.displayHeight/2 , langData.get("language"))
+        helpers.messageDisplay(self.gameDisplay,langData.get("instructionsD4"),30, helpers.resource_path(langData.get("fontPath")), color.red, -1, self.displayHeight/2 + 50, langData.get("language"))
+        helpers.messageDisplay(self.gameDisplay,langData.get("instructionsD5"),30, helpers.resource_path(langData.get("fontPath")), color.red, -1, self.displayHeight/2 + 100, langData.get("language"))
     
         if helpers.button(self.gameDisplay, "", self.displayWidth/2 + 100, self.displayHeight/2 + 200 , 250, 70, color.gray, color.lightGray, events):
             return True
-        helpers.messageDisplay(self.gameDisplay,langData.get("backButton"),50, langData.get("fontPath"), color.red, self.displayWidth/2 + 225, self.displayHeight/2 + 232, langData.get("language"))
+        helpers.messageDisplay(self.gameDisplay,langData.get("backButton"),50, helpers.resource_path(langData.get("fontPath")), color.red, self.displayWidth/2 + 225, self.displayHeight/2 + 232, langData.get("language"))
 
         for event in events:
             if event.type == pygame.KEYDOWN:

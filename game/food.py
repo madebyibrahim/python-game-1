@@ -13,11 +13,11 @@ class food:
         self.height = 110
         if isPoison:
             poisonData = random.choice(langData["poisonFood"])
-            imagePath = poisonData.get("image")
-            self.sfxPath = poisonData.get("sfx")
+            imagePath = helpers.resource_path(poisonData.get("image"))
+            self.sfxPath = helpers.resource_path(poisonData.get("sfx"))
         else:
             imagePath = random.choice(langData['healthyFood'])
-            self.sfxPath = ''
+            self.sfxPath = helpers.resource_path('')
         originalImage = pygame.image.load(helpers.resource_path(imagePath))
         self.image = pygame.transform.scale(originalImage, (110,110))        
         
