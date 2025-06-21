@@ -70,7 +70,7 @@ This project is licensed under the **MIT License** — feel free to use, modify,
 ## 🙌 Credits
 
 - **Developer**: Ibrahim 
-- **Language Support**: [Contributors, if any]  
+- **Language Support**: None for the moment
 - **Tools Used**: Python, Pygame, Custom Assets  
 - **Created as**: A personal project
 
