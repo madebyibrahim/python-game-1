@@ -55,9 +55,9 @@ Menus, UI elements, and in-game messages are dynamically localized based on sele
 
 ## 📸 Screenshots
 
-![Starting Screen](assets/images/rm_start.png)
+![Starting Screen](assets/readme/rm_start.png)
 
-![In-game UI](assets/images/rm_ingame.png)
+![In-game UI](assets/readme/rm_ingame.png)
 
 ---
 
