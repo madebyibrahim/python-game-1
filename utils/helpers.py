@@ -58,7 +58,7 @@ def showImage(gameDisplay, imagePath, x=-1,y=-1, size = None):
         y=displayHeight/2
     gameDisplay.blit(img,(x,y))
 
-def button(gameDisplay, msg, x, y, w, h, inactiveColor, activeColor, events, lang = "", fontPath = resource_path(""), fontSize = 30):
+def button(gameDisplay, msg, x, y, w, h, inactiveColor, activeColor, events, lang = "oo", fontPath = resource_path("oo.ttf"), fontSize = 30):
     mousePos = pygame.mouse.get_pos()
     clicked = False
     langData = None
@@ -72,15 +72,15 @@ def button(gameDisplay, msg, x, y, w, h, inactiveColor, activeColor, events, lan
     if msg.strip() != "":
         if lang == "ar":
             msg = makeArabic(msg)
-    if lang == "":
-        if fontPath == "":
+    if lang == "oo":
+        if fontPath == resource_path("oo.ttf"):
             lang = "en"
             langData = loadLanguageData(lang)
             fontPath = resource_path(langData.get("fontPath"))
-        elif fontPath != "":
+        elif fontPath != resource_path("oo.ttf"):
             lang = "en"
-    elif lang != "":
-        if fontPath == "":
+    elif lang != "oo":
+        if fontPath == "oo.ttf":
             langData = loadLanguageData(lang)
             fontPath = resource_path(langData.get("fontPath"))
     smallText = pygame.font.Font(resource_path(fontPath), fontSize)

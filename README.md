@@ -55,7 +55,9 @@ Menus, UI elements, and in-game messages are dynamically localized based on sele
 
 ## 📸 Screenshots
 
-*Add screenshots or gameplay GIFs here to visually showcase the game.*
+![Starting Screen](python_9vElKXpAEE.png)
+
+![In-game UI](python_EN6BQZuKfc.png)
 
 ---
 
